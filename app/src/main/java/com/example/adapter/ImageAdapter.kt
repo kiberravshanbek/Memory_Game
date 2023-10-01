@@ -38,12 +38,12 @@ class ImageAdapter(val context:Context,list:ArrayList<ImageModel>,val level:Leve
 
         when(level){
             Level.Easy-> {
-                viewImageView.layoutParams= ViewGroup.LayoutParams(120.dp,120.dp)
+                viewImageView.layoutParams= ViewGroup.LayoutParams(110.dp,110.dp)
                 val view = viewImageView.getChildAt(0) as ImageView
                 view.setImageResource(imgList[position].resId)
             }
             Level.Medium-> {
-                viewImageView.layoutParams= ViewGroup.LayoutParams(90.dp,90.dp)
+                viewImageView.layoutParams= ViewGroup.LayoutParams(70.dp,70.dp)
                 val view = viewImageView.getChildAt(0) as ImageView
                 view.setImageResource(imgList[position].resId)
 

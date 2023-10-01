@@ -18,6 +18,7 @@
         android:src="@drawable/main4"/>-->
 
     <com.airbnb.lottie.LottieAnimationView
+        app:layout_constraintLeft_toLeftOf="@id/hard"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
