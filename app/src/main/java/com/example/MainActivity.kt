@@ -10,5 +10,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         supportFragmentManager.beginTransaction().replace(R.id.mainActivity,HomeScreenFragment()).commit()
+
+        //salom salom git ishlashi tekshirildi
     }
 }
