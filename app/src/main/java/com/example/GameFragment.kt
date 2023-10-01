@@ -1,6 +1,7 @@
 package com.example
 
 import AlImages
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -84,6 +85,29 @@ class GameFragment : Fragment(R.layout.fragment_game) {
 
         val imageAdapter = ImageAdapter(requireContext(), adapterlist, a)
         binding.gridView.adapter = imageAdapter
+        
+        binding.gridView.setOnItemClickListener { _, view, i, id ->
+            Toast.makeText(requireContext(), "$i", Toast.LENGTH_SHORT).show()
+
+          //view.animate()
+          //    .setDuration(300)
+          //    .rotationY(89f)
+          //    .withEndAction {
+          //        //adapterlist.set(i,ImageModel(R.drawable.img_10))
+          //        adapterlist.removeAt(i)
+          //        imageAdapter.notifyDataSetChanged()
+
+          //       // view.setBackgroundResource(R.drawable.img_4)
+          //        view.rotationY = -89f
+          //         view.animate()
+          //            .setDuration(300)
+          //            .rotationY(0f)
+          //            .withEndAction {
+          //            }
+          //            .start()
+          //    }
+          //    .start()
+        }
 
 
     }

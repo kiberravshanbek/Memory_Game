@@ -40,7 +40,6 @@
             android:gravity="center"
             android:layout_height="match_parent"
             android:numColumns="12"
-            tools:listitem="@layout/item_img"
             />
 
         <androidx.constraintlayout.widget.ConstraintLayout
