@@ -2,6 +2,7 @@ package com.example.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import com.example.customview.extensions.dp
 import com.example.memorygame.R
+import com.example.memorygame.R.drawable
 import com.example.model.ImageModel
 import com.example.model.Level
 
@@ -41,9 +43,11 @@ class ImageAdapter(val context:Context,list:ArrayList<ImageModel>,val level:Leve
                 viewImageView.layoutParams= ViewGroup.LayoutParams(110.dp,110.dp)
                 val view = viewImageView.getChildAt(0) as ImageView
                 view.setImageResource(imgList[position].resId)
+
+
             }
             Level.Medium-> {
-                viewImageView.layoutParams= ViewGroup.LayoutParams(60.dp,60.dp)
+                viewImageView.layoutParams= ViewGroup.LayoutParams(70.dp,70.dp)
                 val view = viewImageView.getChildAt(0) as ImageView
                 view.setImageResource(imgList[position].resId)
 
