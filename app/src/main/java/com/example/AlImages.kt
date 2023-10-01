@@ -8,7 +8,6 @@ class AlImages {
 
         // shu yerga hamma rasmlarni qushib chiqmamiz
         // bu bizga rasmlar listini beradi
-        images.add(ImageModel(R.drawable.img))
         images.add(ImageModel(R.drawable.img_4))
 
         return images
