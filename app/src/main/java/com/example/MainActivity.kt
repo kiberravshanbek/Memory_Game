@@ -15,5 +15,7 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction().replace(R.id.mainActivity,HomeScreenFragment()).commit()
 
         //salom salom git ishlashi tekshirildi
+
+        //supportFragmentManager.beginTransaction().replace(R.id.mainActivity,SplashFragment()).commit()
     }
 }
