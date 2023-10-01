@@ -58,4 +58,6 @@ dependencies {
      * ViewModelProviders
      * */
     implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
+
+    implementation ("com.airbnb.android:lotite-compose:6.1.0")
 }

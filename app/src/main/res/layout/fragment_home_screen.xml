@@ -52,5 +52,4 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/medium" />
 
-
 </androidx.constraintlayout.widget.ConstraintLayout>
