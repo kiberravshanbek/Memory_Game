@@ -11,4 +11,8 @@ class MainActivity : AppCompatActivity() {
 
         supportFragmentManager.beginTransaction().replace(R.id.mainActivity,HomeScreenFragment()).commit()
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+    }
 }
