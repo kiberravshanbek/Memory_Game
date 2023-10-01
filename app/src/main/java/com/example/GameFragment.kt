@@ -1,5 +1,6 @@
 package com.example
 
+import AlImages
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -16,12 +17,15 @@ import com.example.model.Level
 
 class GameFragment : Fragment(R.layout.fragment_game) {
 
-    private lateinit var list: List<ImageModel>
     private val binding by viewBinding(FragmentGameBinding::bind)
     private var a = Level.Easy
+    private val allImage = AlImages()
+    private var list = ArrayList<ImageModel>(allImage.addWords())
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        var list = ArrayList<ImageModel>(allImage.addWords())
 
         val args = this.arguments
         var easy = args?.get("easy")
@@ -31,7 +35,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
         if (easy == "easy") {
             Toast.makeText(requireContext(), "1", Toast.LENGTH_SHORT).show()
             a = Level.Easy
-            binding.gridView.numColumns=6
+            binding.gridView.numColumns = 6
         }
 
         if (medium == "medium") {
@@ -45,7 +49,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
         }
 
 
-        var list = ArrayList<ImageModel>()
+       // var list = ArrayList<ImageModel>()
         list.add(ImageModel(R.drawable.bg_img))
         list.add(ImageModel(R.drawable.bg_img))
         list.add(ImageModel(R.drawable.bg_img))
@@ -59,48 +63,63 @@ class GameFragment : Fragment(R.layout.fragment_game) {
         list.add(ImageModel(R.drawable.bg_img))
         list.add(ImageModel(R.drawable.bg_img))
 
-      //  list.add(ImageModel(R.drawable.bg_img))
-      //  list.add(ImageModel(R.drawable.bg_img))
-      //  list.add(ImageModel(R.drawable.bg_img))
-      //  list.add(ImageModel(R.drawable.bg_img))
-      //  list.add(ImageModel(R.drawable.bg_img))
-      //  list.add(ImageModel(R.drawable.bg_img))
-      //  list.add(ImageModel(R.drawable.bg_img))
-      //  list.add(ImageModel(R.drawable.bg_img))
-      //  list.add(ImageModel(R.drawable.bg_img))
-      //  list.add(ImageModel(R.drawable.bg_img))
-      //  list.add(ImageModel(R.drawable.bg_img))
-      //  list.add(ImageModel(R.drawable.bg_img))
+        //  list.add(ImageModel(R.drawable.bg_img))
+        //  list.add(ImageModel(R.drawable.bg_img))
+        //  list.add(ImageModel(R.drawable.bg_img))
+        //  list.add(ImageModel(R.drawable.bg_img))
+        //  list.add(ImageModel(R.drawable.bg_img))
+        //  list.add(ImageModel(R.drawable.bg_img))
+        //  list.add(ImageModel(R.drawable.bg_img))
+        //  list.add(ImageModel(R.drawable.bg_img))
+        //  list.add(ImageModel(R.drawable.bg_img))
+        //  list.add(ImageModel(R.drawable.bg_img))
+        //  list.add(ImageModel(R.drawable.bg_img))
+        //  list.add(ImageModel(R.drawable.bg_img))
 
-      // list.add(ImageModel(R.drawable.bg_img))
-      // list.add(ImageModel(R.drawable.bg_img))
-      // list.add(ImageModel(R.drawable.bg_img))
-      // list.add(ImageModel(R.drawable.bg_img))
-      // list.add(ImageModel(R.drawable.bg_img))
-      // list.add(ImageModel(R.drawable.bg_img))
-      // list.add(ImageModel(R.drawable.bg_img))
-      // list.add(ImageModel(R.drawable.bg_img))
-      // list.add(ImageModel(R.drawable.bg_img))
-      // list.add(ImageModel(R.drawable.bg_img))
-      // list.add(ImageModel(R.drawable.bg_img))
-      // list.add(ImageModel(R.drawable.bg_img))
-      // list.add(ImageModel(R.drawable.bg_img))
-      // list.add(ImageModel(R.drawable.bg_img))
-      // list.add(ImageModel(R.drawable.bg_img))
-      // list.add(ImageModel(R.drawable.bg_img))
-      // list.add(ImageModel(R.drawable.bg_img))
-      // list.add(ImageModel(R.drawable.bg_img))
-      // list.add(ImageModel(R.drawable.bg_img))
-      // list.add(ImageModel(R.drawable.bg_img))
-      // list.add(ImageModel(R.drawable.bg_img))
-      // list.add(ImageModel(R.drawable.bg_img))
-      // list.add(ImageModel(R.drawable.bg_img))
-      // list.add(ImageModel(R.drawable.bg_img))
+        // list.add(ImageModel(R.drawable.bg_img))
+        // list.add(ImageModel(R.drawable.bg_img))
+        // list.add(ImageModel(R.drawable.bg_img))
+        // list.add(ImageModel(R.drawable.bg_img))
+        // list.add(ImageModel(R.drawable.bg_img))
+        // list.add(ImageModel(R.drawable.bg_img))
+        // list.add(ImageModel(R.drawable.bg_img))
+        // list.add(ImageModel(R.drawable.bg_img))
+        // list.add(ImageModel(R.drawable.bg_img))
+        // list.add(ImageModel(R.drawable.bg_img))
+        // list.add(ImageModel(R.drawable.bg_img))
+        // list.add(ImageModel(R.drawable.bg_img))
+        // list.add(ImageModel(R.drawable.bg_img))
+        // list.add(ImageModel(R.drawable.bg_img))
+        // list.add(ImageModel(R.drawable.bg_img))
+        // list.add(ImageModel(R.drawable.bg_img))
+        // list.add(ImageModel(R.drawable.bg_img))
+        // list.add(ImageModel(R.drawable.bg_img))
+        // list.add(ImageModel(R.drawable.bg_img))
+        // list.add(ImageModel(R.drawable.bg_img))
+        // list.add(ImageModel(R.drawable.bg_img))
+        // list.add(ImageModel(R.drawable.bg_img))
+        // list.add(ImageModel(R.drawable.bg_img))
+        // list.add(ImageModel(R.drawable.bg_img))
 
 
         val imageAdapter = ImageAdapter(requireContext(), list, a)
         binding.gridView.adapter = imageAdapter
 
+
+    }
+
+    fun getEasyShuflle():List<ImageModel>{
+        val easyList =list.shuffled().take(12)
+        return easyList
+    }
+    fun getMediumShuflle():List<ImageModel>{
+        val mediumList =list.shuffled().take(24)
+        return mediumList
+    }
+
+    fun getHardShuflle():List<ImageModel>{
+        val hardList =list.shuffled().take(48)
+        return hardList
 
     }
 
