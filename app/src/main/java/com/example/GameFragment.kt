@@ -38,7 +38,10 @@ class GameFragment : Fragment(R.layout.fragment_game) {
             Toast.makeText(requireContext(), "1", Toast.LENGTH_SHORT).show()
             a = Level.Easy
             binding.gridView.numColumns = 6
-            adapterlist.addAll( getEasyShuflle())
+            val singlelist= getEasyShuflle()
+            adapterlist.addAll(singlelist)
+            adapterlist.addAll(singlelist)
+            adapterlist.shuffle()
 
         }
 
@@ -46,15 +49,20 @@ class GameFragment : Fragment(R.layout.fragment_game) {
             Toast.makeText(requireContext(), "2", Toast.LENGTH_SHORT).show()
             a = Level.Medium
             binding.gridView.numColumns = 6
-
-            adapterlist.addAll( getMediumShuflle())
+            val singlelist=getMediumShuflle()
+            adapterlist.addAll(singlelist)
+            adapterlist.addAll(singlelist)
+            adapterlist.shuffle()
         }
 
         if (hard == "hard") {
             Toast.makeText(requireContext(), "3", Toast.LENGTH_SHORT).show()
             a = Level.Hard
             binding.gridView.numColumns =12
-            adapterlist.addAll( getHardShuflle())
+            val singlelist=getHardShuflle()
+            adapterlist.addAll(singlelist)
+            adapterlist.addAll(singlelist)
+            adapterlist.shuffle()
         }
 
 
@@ -81,16 +89,16 @@ class GameFragment : Fragment(R.layout.fragment_game) {
     }
 
     fun getEasyShuflle():List<ImageModel>{
-        val easyList =list.shuffled().take(12)
+        val easyList =list.shuffled().take(6)
         return easyList
     }
     fun getMediumShuflle():List<ImageModel>{
-        val mediumList =list.shuffled().take(24)
+        val mediumList =list.shuffled().take(12)
         return mediumList
     }
 
     fun getHardShuflle():List<ImageModel>{
-        val hardList =list.shuffled().take(48)
+        val hardList =list.shuffled().take(24)
         return hardList
 
     }
