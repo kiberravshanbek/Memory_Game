@@ -15,12 +15,11 @@ import com.example.model.Level
 
 class GameFragment : Fragment(R.layout.fragment_game) {
 
-    private lateinit var list:List<ImageModel>
+    private lateinit var list: List<ImageModel>
     private val binding by viewBinding(FragmentGameBinding::bind)
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
 
 
         var list = ArrayList<ImageModel>()
@@ -49,11 +48,34 @@ class GameFragment : Fragment(R.layout.fragment_game) {
         list.add(ImageModel(R.drawable.bg_img))
         list.add(ImageModel(R.drawable.bg_img))
 
+        list.add(ImageModel(R.drawable.bg_img))
+        list.add(ImageModel(R.drawable.bg_img))
+        list.add(ImageModel(R.drawable.bg_img))
+        list.add(ImageModel(R.drawable.bg_img))
+        list.add(ImageModel(R.drawable.bg_img))
+        list.add(ImageModel(R.drawable.bg_img))
+        list.add(ImageModel(R.drawable.bg_img))
+        list.add(ImageModel(R.drawable.bg_img))
+        list.add(ImageModel(R.drawable.bg_img))
+        list.add(ImageModel(R.drawable.bg_img))
+        list.add(ImageModel(R.drawable.bg_img))
+        list.add(ImageModel(R.drawable.bg_img))
+        list.add(ImageModel(R.drawable.bg_img))
+        list.add(ImageModel(R.drawable.bg_img))
+        list.add(ImageModel(R.drawable.bg_img))
+        list.add(ImageModel(R.drawable.bg_img))
+        list.add(ImageModel(R.drawable.bg_img))
+        list.add(ImageModel(R.drawable.bg_img))
+        list.add(ImageModel(R.drawable.bg_img))
+        list.add(ImageModel(R.drawable.bg_img))
+        list.add(ImageModel(R.drawable.bg_img))
+        list.add(ImageModel(R.drawable.bg_img))
+        list.add(ImageModel(R.drawable.bg_img))
+        list.add(ImageModel(R.drawable.bg_img))
 
 
-        val imageAdapter=ImageAdapter(requireContext(),list ,Level.Medium)
-        binding.gridView.adapter=imageAdapter
-
+        val imageAdapter = ImageAdapter(requireContext(), list, Level.Hard)
+        binding.gridView.adapter = imageAdapter
 
 
     }
