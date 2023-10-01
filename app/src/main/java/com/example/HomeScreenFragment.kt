@@ -13,6 +13,7 @@ import com.example.memorygame.databinding.FragmentHomeScreenBinding
 
 class HomeScreenFragment : Fragment(R.layout.fragment_home_screen) {
     private val binding by viewBinding(FragmentHomeScreenBinding::bind)
+    private val bundle=Bundle()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.easy.setOnClickListener {
@@ -27,7 +28,13 @@ class HomeScreenFragment : Fragment(R.layout.fragment_home_screen) {
                         .scaleX(1f)
                         .scaleY(1f)
                         .withEndAction {
-                        parentFragmentManager.beginTransaction().replace(R.id.mainActivity,GameFragment()).addToBackStack("toGame")                            .commit()
+                            bundle.putString("easy","easy")
+                            bundle.putString("medium","null")
+                            bundle.putString("hard","null")
+
+                            val fragment = GameFragment()
+                            fragment.arguments = bundle
+                        parentFragmentManager.beginTransaction().replace(R.id.mainActivity,fragment).addToBackStack("toGame")                            .commit()
                         }
                         .start()
                 }
@@ -47,7 +54,12 @@ class HomeScreenFragment : Fragment(R.layout.fragment_home_screen) {
                         .scaleX(1f)
                         .scaleY(1f)
                         .withEndAction {
-                            parentFragmentManager.beginTransaction().replace(R.id.mainActivity,GameFragment()).addToBackStack("toGame")                            .commit()
+                            bundle.putString("medium","medium")
+                            bundle.putString("easy","null")
+                            bundle.putString("hard","null")
+                            val fragment = GameFragment()
+                            fragment.arguments = bundle
+                            parentFragmentManager.beginTransaction().replace(R.id.mainActivity,fragment).addToBackStack("toGame")                            .commit()
                         }
                         .start()
                 }
@@ -68,7 +80,12 @@ class HomeScreenFragment : Fragment(R.layout.fragment_home_screen) {
                         .scaleX(1f)
                         .scaleY(1f)
                         .withEndAction {
-                            parentFragmentManager.beginTransaction().replace(R.id.mainActivity,GameFragment()).addToBackStack("toGame")                            .commit()
+                            bundle.putString("hard","hard")
+                            bundle.putString("medium","null")
+                            bundle.putString("easy","null")
+                            val fragment = GameFragment()
+                            fragment.arguments = bundle
+                            parentFragmentManager.beginTransaction().replace(R.id.mainActivity,fragment).addToBackStack("toGame")                            .commit()
                         }
                         .start()
                 }
