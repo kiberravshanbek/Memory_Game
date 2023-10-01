@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.Toast
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.adapter.ImageAdapter
@@ -23,6 +24,12 @@ class GameFragment : Fragment(R.layout.fragment_game) {
     private val allImage = AlImages()
     private var list = ArrayList<ImageModel>(allImage.addWords())
     private var adapterlist = ArrayList<ImageModel>()
+    private var bool1=false
+    private var bool2=false
+    private var resId1=-1
+    private var resId2=-1
+    private var index1=-1
+    private var index2=-1
 
 
 
@@ -85,9 +92,31 @@ class GameFragment : Fragment(R.layout.fragment_game) {
 
         val imageAdapter = ImageAdapter(requireContext(), adapterlist, a)
         binding.gridView.adapter = imageAdapter
-        
+        val anim=AnimationUtils.loadAnimation(requireContext(),R.anim.animation)
+        binding.gridView.animation=anim
+        anim.start()
+        val item_anim=AnimationUtils.loadAnimation(requireContext(),R.anim.fade_in)
+
+
+
         binding.gridView.setOnItemClickListener { _, view, i, id ->
-            Toast.makeText(requireContext(), "$i", Toast.LENGTH_SHORT).show()
+            val item=binding.gridView.getChildAt(i)
+            item.startAnimation(item_anim)
+
+            if (!bool1){
+                bool1=true
+                index1=i
+                resId1=adapterlist[i].resId
+                return@setOnItemClickListener
+            }
+            if (bool1){
+                bool1=false
+                if (resId1==adapterlist[i].resId){
+                    Toast.makeText(requireActivity(), "sucsses", Toast.LENGTH_SHORT).show()
+                }else{
+                    Toast.makeText(requireActivity(), "faild", Toast.LENGTH_SHORT).show()
+                }
+            }
 
           //view.animate()
           //    .setDuration(300)

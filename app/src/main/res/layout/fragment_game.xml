@@ -38,6 +38,9 @@
             android:layout_width="match_parent"
             android:layout_gravity="center"
             android:gravity="center"
+            tools:listitem="@layout/item_img"
+            android:verticalSpacing="8dp"
+            android:horizontalSpacing="8dp"
             android:layout_height="match_parent"
             android:numColumns="12"
             />
