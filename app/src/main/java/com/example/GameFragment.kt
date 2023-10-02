@@ -59,14 +59,15 @@ class GameFragment : Fragment(R.layout.fragment_game) {
                 .replace(R.id.mainActivity,HomeScreenFragment()).commit()
         }
 
-        var a=true
+        var b=true
 
         voice.setOnClickListener {
-            if (a){
+            if (b){
                 voice.setImageResource(R.drawable.sound_off)
-                a=false
+                b=false
             }else {
                 voice.setImageResource(R.drawable.sound_on)
+                b =true
             }
 
         }
