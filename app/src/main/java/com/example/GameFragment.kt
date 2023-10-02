@@ -31,6 +31,8 @@ class GameFragment : Fragment(R.layout.fragment_game) {
     private var adapterlist = ArrayList<ImageModel>()
     private var emptylist = ArrayList<ImageModel>()
     private lateinit var imageAdapter:NoteAdapter
+    private lateinit var back:ImageView  //orqaga qaytish
+    private lateinit var voice:ImageView  //ovoz o'chirib yoqish
 
 
 
@@ -48,6 +50,18 @@ class GameFragment : Fragment(R.layout.fragment_game) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         var list = ArrayList<ImageModel>(allImage.addWords())
+        back=view.findViewById<ImageView?>(R.id.home_button)
+        voice=view.findViewById(R.id.level)
+
+        back.setOnClickListener {
+            parentFragmentManager.beginTransaction()
+                .setReorderingAllowed(true)
+                .replace(R.id.mainActivity,HomeScreenFragment()).commit()
+        }
+
+        voice.setOnClickListener {
+            voice.setImageResource(R.drawable.sound_off)
+        }
 
         val args = this.arguments
         var easy = args?.get("easy")
