@@ -59,8 +59,16 @@ class GameFragment : Fragment(R.layout.fragment_game) {
                 .replace(R.id.mainActivity,HomeScreenFragment()).commit()
         }
 
+        var a=true
+
         voice.setOnClickListener {
-            voice.setImageResource(R.drawable.sound_off)
+            if (a){
+                voice.setImageResource(R.drawable.sound_off)
+                a=false
+            }else {
+                voice.setImageResource(R.drawable.sound_on)
+            }
+
         }
 
         val args = this.arguments
