@@ -2,12 +2,14 @@ package com.example
 
 import AlImages
 import android.animation.ObjectAnimator
+import android.app.AlertDialog
 import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.view.LayoutInflater
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.view.animation.AnimationUtils
@@ -24,7 +26,6 @@ import com.example.memorygame.R
 import com.example.memorygame.databinding.FragmentGameBinding
 import com.example.model.ImageModel
 import com.example.model.Level
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -34,18 +35,15 @@ class GameFragment : Fragment(R.layout.fragment_game) {
     private val binding by viewBinding(FragmentGameBinding::bind)
     private var a = Level.Easy
     private val allImage = AlImages()
-    private lateinit var job: Job
     private var list = ArrayList<ImageModel>(allImage.addWords())
     private var adapterlist = ArrayList<ImageModel>()
     private var emptylist = ArrayList<ImageModel>()
     private lateinit var imageAdapter: NoteAdapter
     private lateinit var countd1: CountDownTimer
     private lateinit var countd2: CountDownTimer
-    private var setTime=0
 
 
     private var i: Int = 0
-    private var i45: Int =100
     private var finish=-1
     private var bool1 = false
     private var bool2 = false
@@ -107,40 +105,14 @@ class GameFragment : Fragment(R.layout.fragment_game) {
         }
 
 
-        val animator =ObjectAnimator.ofInt(binding.horizontalProgressBar, "progress", 100, 0)
-        animator.duration = 100000
-        animator.repeatCount = 0
-
-        val progressBar = binding.horizontalProgressBar
-        progressBar.max = i45
-        job = lifecycleScope.launch {
-            while (i45 > 0) {
-                progressBar.progress = i
-                i45--
-                binding.time.text = i45.toString()
-                if (i45 == 0) {
-                    Toast.makeText(requireContext(), "Game Over", Toast.LENGTH_SHORT).show()
-                   // showGameOverDialog()
-                }
-                delay(1000L)
-            }
-        }
-
-        val countDownTimer = object : CountDownTimer(2000, 500) {
-            override fun onTick(p0: Long) {
-            }
-
-            override fun onFinish() {
-                //
-            }
-
-        }
-        countDownTimer.start()
+        val animator = ObjectAnimator.ofInt(binding.horizontalProgressBar, "progress", 100, 0)
+        animator.duration = 10000
+        animator.repeatCount = 1
+        animator.repeatMode = ObjectAnimator.REVERSE
         animator.start()
 
 
-
-     //  showGameOverDialog()
+      //  showGameOverDialog()
 
 
 
@@ -209,7 +181,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
                    // Toast.makeText(requireContext(), "sucsess", Toast.LENGTH_SHORT).show()
 
                     if (finish==0) {
-
+                        showGameOverDialog()
                     }
                     Toast.makeText(requireContext(), "siz yutdingiz", Toast.LENGTH_SHORT).show()
 
@@ -381,6 +353,15 @@ class GameFragment : Fragment(R.layout.fragment_game) {
 
     }
 
+    private fun showGameOverDialog() {
+        val dialog = AlertDialog.Builder(requireContext())
 
+        val inflate=LayoutInflater.from(requireContext())
+        val dialogView=inflate.inflate(R.layout.dialog_you_win,null)
+        dialog.setView(dialogView)
+        val dialogD=dialog.create()
+        dialogD.getWindow()?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialogD.show()
+    }
 
 }
