@@ -105,8 +105,6 @@ class GameFragment : Fragment(R.layout.fragment_game) {
 
 
         imageAdapter.setOnClickListener { index->
-            Toast.makeText(requireContext(), "$index", Toast.LENGTH_SHORT).show()
-
           var  p= binding.gridView.getChildAt(index) as View
             p.animate()
                 .setDuration(300)
@@ -125,6 +123,27 @@ class GameFragment : Fragment(R.layout.fragment_game) {
                         .start()
                 }
                 .start()
+            if (!bool1){
+                index1=index
+                resId1=adapterlist[index].resId
+                bool1=true
+                return@setOnClickListener
+            }
+            if (bool1&&index!=index1){
+                if (resId1==adapterlist[index].resId){
+                    Toast.makeText(requireContext(), "sucsess", Toast.LENGTH_SHORT).show()
+                    bool1=false
+                }else{
+                    bool1=false
+                    Toast.makeText(requireContext(), "faild", Toast.LENGTH_SHORT).show()
+                    emptylist[index]= ImageModel(R.drawable.hayvonlar_3)
+                    emptylist[index1]= ImageModel(R.drawable.hayvonlar_3)
+                    imageAdapter.notifyItemChanged(index)
+                    imageAdapter.notifyItemChanged(index1)
+
+                }
+            }
+
 
         }
 
