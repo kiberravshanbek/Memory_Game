@@ -6,9 +6,11 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewGroup.LayoutParams
 import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.LinearLayout
+import androidx.core.view.marginTop
 import com.example.customview.extensions.dp
 import com.example.memorygame.R
 import com.example.memorygame.R.drawable
@@ -40,11 +42,11 @@ class ImageAdapter(val context:Context,list:ArrayList<ImageModel>,val level:Leve
 
         when(level){
             Level.Easy-> {
-                viewImageView.layoutParams= ViewGroup.LayoutParams(110.dp,110.dp)
+                viewImageView.layoutParams= ViewGroup.LayoutParams(110.dp,110.dp).apply {
+                }
+                viewImageView.setBackgroundResource(R.drawable.my_bg)
                 val view = viewImageView.getChildAt(0) as ImageView
                 view.setImageResource(imgList[position].resId)
-
-
             }
             Level.Medium-> {
                 viewImageView.layoutParams= ViewGroup.LayoutParams(70.dp,70.dp)
