@@ -11,8 +11,10 @@ import android.widget.AdapterView
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.recyclerview.widget.GridLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.adapter.ImageAdapter
+import com.example.adapter.NoteAdapter
 import com.example.memorygame.R
 import com.example.memorygame.databinding.FragmentGameBinding
 import com.example.model.ImageModel
@@ -26,7 +28,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
     private val allImage = AlImages()
     private var list = ArrayList<ImageModel>(allImage.addWords())
     private var adapterlist = ArrayList<ImageModel>()
-    private lateinit var imageAdapter:ImageAdapter
+    private lateinit var imageAdapter:NoteAdapter
 
 
 
@@ -52,7 +54,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
         if (easy == "easy") {
             Toast.makeText(requireContext(), "1", Toast.LENGTH_SHORT).show()
             a = Level.Easy
-            binding.gridView.numColumns = 6
+            binding.gridView.layoutManager=GridLayoutManager(requireContext(),6)
             val singlelist= getEasyShuflle()
             adapterlist.addAll(singlelist)
             adapterlist.addAll(singlelist)
@@ -64,7 +66,8 @@ class GameFragment : Fragment(R.layout.fragment_game) {
         if (medium == "medium") {
             Toast.makeText(requireContext(), "2", Toast.LENGTH_SHORT).show()
             a = Level.Medium
-            binding.gridView.numColumns = 6
+
+            binding.gridView.layoutManager=GridLayoutManager(requireContext(),6)
             val singlelist=getMediumShuflle()
             adapterlist.addAll(singlelist)
             adapterlist.addAll(singlelist)
@@ -74,7 +77,8 @@ class GameFragment : Fragment(R.layout.fragment_game) {
         if (hard == "hard") {
             Toast.makeText(requireContext(), "3", Toast.LENGTH_SHORT).show()
             a = Level.Hard
-            binding.gridView.numColumns =12
+
+            binding.gridView.layoutManager=GridLayoutManager(requireContext(),12)
             val singlelist=getHardShuflle()
             adapterlist.addAll(singlelist)
             adapterlist.addAll(singlelist)
@@ -108,7 +112,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
 
 
 
-        imageAdapter = ImageAdapter(requireContext(), adapterlist, a)
+        imageAdapter = NoteAdapter(adapterlist, a)
         binding.gridView.adapter = imageAdapter
         val anim=AnimationUtils.loadAnimation(requireContext(),R.anim.animation)
         binding.gridView.animation=anim
@@ -116,50 +120,50 @@ class GameFragment : Fragment(R.layout.fragment_game) {
         val item_anim=AnimationUtils.loadAnimation(requireContext(),R.anim.fade_in)
 
 
-        binding.gridView.setOnItemClickListener(AdapterView.OnItemClickListener(){ adapterView: AdapterView<*>, view2: View, i: Int, l: Long ->
-
-            val linear=view2 as LinearLayout
-            val imageView = linear.getChildAt(0) as ImageView
-            imageView.setImageResource(R.drawable.hayvonlar_3)
-            linear.animate()
-                .setDuration(300)
-                .rotationY(89f)
-                .withEndAction {
-                    adapterlist[i]= ImageModel(R.drawable.hayvonlar_3)
-
-                    Toast.makeText(requireContext(), "1", Toast.LENGTH_SHORT).show()
-                    view.rotationY = -89f
-                    view.animate()
-                        .setDuration(300)
-                        .rotationY(0f)
-                        .withEndAction {
-                            Toast.makeText(requireContext(), "2", Toast.LENGTH_SHORT).show()
-                        }
-                        .start()
-                }
-                .start()
-
-            linear.animate()
-                .setDuration(300)
-                .rotationY(89f)
-                .withEndAction {
-                    //adapterlist.set(i,ImageModel(R.drawable.img_10))
-                    adapterlist.removeAt(i)
-                    imageAdapter.notifyDataSetChanged()
-
-                    // view.setBackgroundResource(R.drawable.img_4)
-                    view.rotationY = -89f
-                    view.animate()
-                        .setDuration(300)
-                        .rotationY(0f)
-                        .withEndAction {
-                        }
-                        .start()
-                }
-                .start()
-
-
-        })
+//        binding.gridView.setOnItemClickListener(AdapterView.OnItemClickListener(){ adapterView: AdapterView<*>, view2: View, i: Int, l: Long ->
+//
+//            val linear=view2 as LinearLayout
+//            val imageView = linear.getChildAt(0) as ImageView
+//            imageView.setImageResource(R.drawable.hayvonlar_3)
+//            linear.animate()
+//                .setDuration(300)
+//                .rotationY(89f)
+//                .withEndAction {
+//                    adapterlist[i]= ImageModel(R.drawable.hayvonlar_3)
+//
+//                    Toast.makeText(requireContext(), "1", Toast.LENGTH_SHORT).show()
+//                    view.rotationY = -89f
+//                    view.animate()
+//                        .setDuration(300)
+//                        .rotationY(0f)
+//                        .withEndAction {
+//                            Toast.makeText(requireContext(), "2", Toast.LENGTH_SHORT).show()
+//                        }
+//                        .start()
+//                }
+//                .start()
+//
+//            linear.animate()
+//                .setDuration(300)
+//                .rotationY(89f)
+//                .withEndAction {
+//                    //adapterlist.set(i,ImageModel(R.drawable.img_10))
+//                    adapterlist.removeAt(i)
+//                    imageAdapter.notifyDataSetChanged()
+//
+//                    // view.setBackgroundResource(R.drawable.img_4)
+//                    view.rotationY = -89f
+//                    view.animate()
+//                        .setDuration(300)
+//                        .rotationY(0f)
+//                        .withEndAction {
+//                        }
+//                        .start()
+//                }
+//                .start()
+//
+//
+//        })
 //        binding.gridView.setOnItemClickListener { _, view, i, id ->
 //              //open()
 //            val item=view as LinearLayout
@@ -167,7 +171,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
 //
 
 
-            imageAdapter.notifyDataSetInvalidated()
+           // imageAdapter.notifyDataSetInvalidated()
             if (!bool1){
                 bool1=true
                 index1=i
