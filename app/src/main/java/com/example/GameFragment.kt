@@ -114,10 +114,10 @@ class GameFragment : Fragment(R.layout.fragment_game) {
 
         imageAdapter = NoteAdapter(adapterlist, a)
         binding.gridView.adapter = imageAdapter
-        val anim=AnimationUtils.loadAnimation(requireContext(),R.anim.animation)
-        binding.gridView.animation=anim
-        anim.start()
-        val item_anim=AnimationUtils.loadAnimation(requireContext(),R.anim.fade_in)
+//        val anim=AnimationUtils.loadAnimation(requireContext(),R.anim.animation)
+//        binding.gridView.animation=anim
+//        anim.start()
+//        val item_anim=AnimationUtils.loadAnimation(requireContext(),R.anim.fade_in)
 
 
 //        binding.gridView.setOnItemClickListener(AdapterView.OnItemClickListener(){ adapterView: AdapterView<*>, view2: View, i: Int, l: Long ->
@@ -172,26 +172,26 @@ class GameFragment : Fragment(R.layout.fragment_game) {
 
 
            // imageAdapter.notifyDataSetInvalidated()
-            if (!bool1){
-                bool1=true
-                index1=i
-                resId1=adapterlist[i].resId
-                return
-            }
-            if (bool1){
-                bool1=false
-                if (resId1==adapterlist[i].resId){
-                    Toast.makeText(requireActivity(), "sucsses", Toast.LENGTH_SHORT).show()
-                    win()
-                }else{
-                    Toast.makeText(requireActivity(), "faild", Toast.LENGTH_SHORT).show()
-                    close()
-                }
-            }
+//            if (!bool1){
+//                bool1=true
+//                index1=i
+//                resId1=adapterlist[i].resId
+//                return
+//            }
+//            if (bool1){
+//                bool1=false
+//                if (resId1==adapterlist[i].resId){
+//                    Toast.makeText(requireActivity(), "sucsses", Toast.LENGTH_SHORT).show()
+//                    win()
+//                }else{
+//                    Toast.makeText(requireActivity(), "faild", Toast.LENGTH_SHORT).show()
+//                    close()
+//                }
+//            }
 
 
 
-        imageAdapter.notifyDataSetChanged()
+        //imageAdapter.notifyDataSetChanged()
 
 
     }
