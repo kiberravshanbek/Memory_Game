@@ -171,7 +171,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
                     emptylist[index1]= ImageModel(R.drawable.empty1)
                     imageAdapter.notifyItemChanged(index)
                     imageAdapter.notifyItemChanged(index1)
-                    Toast.makeText(requireContext(), "sucsess", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "success", Toast.LENGTH_SHORT).show()
                     bool1=false
                 }else{
                     val countDownTimer = object : CountDownTimer(1000, 500) {
@@ -181,7 +181,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
 
                         override fun onFinish() {
                             bool1=false
-                            Toast.makeText(requireContext(), "faild", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(requireContext(), "failed", Toast.LENGTH_SHORT).show()
 
                             var  p= binding.gridView.getChildAt(index) as View
                             p.animate()
