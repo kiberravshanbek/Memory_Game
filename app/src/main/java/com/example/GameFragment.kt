@@ -132,9 +132,8 @@ class GameFragment : Fragment(R.layout.fragment_game) {
                 .rotationY(89f)
                 .withEndAction {
                    adapterlist[i] = ImageModel(R.drawable.img_4)
-                    imageAdapter.notifyDataSetChanged()
-
-
+                    val imageAdapter = ImageAdapter(requireContext(), adapterlist, a)
+                    //imageAdapter.notifyDataSetChanged()
 
                     Toast.makeText(requireContext(), "1", Toast.LENGTH_SHORT).show()
                     view.rotationY = -89f
