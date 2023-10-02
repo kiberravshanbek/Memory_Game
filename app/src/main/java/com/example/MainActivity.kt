@@ -12,10 +12,10 @@ class MainActivity : AppCompatActivity() {
 
         window.decorView.systemUiVisibility= View.SYSTEM_UI_FLAG_FULLSCREEN
 
-        supportFragmentManager.beginTransaction().replace(R.id.mainActivity,HomeScreenFragment()).commit()
+        //supportFragmentManager.beginTransaction().replace(R.id.mainActivity,HomeScreenFragment()).commit()
 
         //salom salom git ishlashi tekshirildi
 
-        //supportFragmentManager.beginTransaction().replace(R.id.mainActivity,SplashFragment()).commit()
+        supportFragmentManager.beginTransaction().replace(R.id.mainActivity,SplashFragment()).commit()
     }
 }
