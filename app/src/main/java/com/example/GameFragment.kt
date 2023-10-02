@@ -28,6 +28,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
     private val allImage = AlImages()
     private var list = ArrayList<ImageModel>(allImage.addWords())
     private var adapterlist = ArrayList<ImageModel>()
+    private var emptylist = ArrayList<ImageModel>()
     private lateinit var imageAdapter:NoteAdapter
 
 
@@ -58,6 +59,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
             val singlelist= getEasyShuflle()
             adapterlist.addAll(singlelist)
             adapterlist.addAll(singlelist)
+            emptylist.addAll(getEasyEmpty())
             adapterlist.shuffle()
 
 
@@ -71,6 +73,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
             val singlelist=getMediumShuflle()
             adapterlist.addAll(singlelist)
             adapterlist.addAll(singlelist)
+            emptylist.addAll(getMediumEmpty())
             adapterlist.shuffle()
         }
 
@@ -82,6 +85,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
             val singlelist=getHardShuflle()
             adapterlist.addAll(singlelist)
             adapterlist.addAll(singlelist)
+            emptylist.addAll(getHardEmpty())
             adapterlist.shuffle()
         }
 
@@ -96,24 +100,35 @@ class GameFragment : Fragment(R.layout.fragment_game) {
 
 
 
-       // var list = ArrayList<ImageModel>()
-        list.add(ImageModel(R.drawable.bg_img))
-        list.add(ImageModel(R.drawable.bg_img))
-        list.add(ImageModel(R.drawable.bg_img))
-        list.add(ImageModel(R.drawable.bg_img))
-        list.add(ImageModel(R.drawable.bg_img))
-        list.add(ImageModel(R.drawable.bg_img))
-        list.add(ImageModel(R.drawable.bg_img))
-        list.add(ImageModel(R.drawable.bg_img))
-        list.add(ImageModel(R.drawable.bg_img))
-        list.add(ImageModel(R.drawable.bg_img))
-        list.add(ImageModel(R.drawable.bg_img))
-        list.add(ImageModel(R.drawable.bg_img))
-
-
-
-        imageAdapter = NoteAdapter(adapterlist, a)
+        imageAdapter = NoteAdapter(emptylist, a)
         binding.gridView.adapter = imageAdapter
+
+
+        imageAdapter.setOnClickListener { index->
+            Toast.makeText(requireContext(), "$index", Toast.LENGTH_SHORT).show()
+
+          var  p= binding.gridView.getChildAt(index) as View
+            p.animate()
+                .setDuration(300)
+                .rotationY(89f)
+                .withEndAction {
+                    emptylist[index]= ImageModel(adapterlist.get(index).resId)
+                    imageAdapter.notifyDataSetChanged()
+
+                    p.rotationY = -89f
+                    p.animate()
+                        .setDuration(300)
+                        .rotationY(0f)
+                        .withEndAction {
+
+                        }
+                        .start()
+                }
+                .start()
+
+        }
+
+
 //        val anim=AnimationUtils.loadAnimation(requireContext(),R.anim.animation)
 //        binding.gridView.animation=anim
 //        anim.start()
@@ -199,6 +214,29 @@ class GameFragment : Fragment(R.layout.fragment_game) {
     fun getEasyShuflle():List<ImageModel>{
         val easyList =list.shuffled().take(6)
         return easyList
+    }
+    fun getEasyEmpty():List<ImageModel>{
+        val easyListEmpty =ArrayList<ImageModel>()
+        for (i in 0..11){
+        easyListEmpty.add(ImageModel(R.drawable.hayvonlar_3))
+        }
+        return easyListEmpty
+    }
+
+    fun getMediumEmpty():List<ImageModel>{
+        val mediumListEmpty =ArrayList<ImageModel>()
+        for (i in 0..23){
+            mediumListEmpty.add(ImageModel(R.drawable.hayvonlar_3))
+        }
+        return mediumListEmpty
+    }
+
+    fun getHardEmpty():List<ImageModel>{
+        val hardListEmpty =ArrayList<ImageModel>()
+        for (i in 0..47){
+            hardListEmpty.add(ImageModel(R.drawable.hayvonlar_3))
+        }
+        return hardListEmpty
     }
     fun getMediumShuflle():List<ImageModel>{
         val mediumList =list.shuffled().take(12)
