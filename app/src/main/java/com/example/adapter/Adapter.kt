@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.LinearLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.customview.extensions.dp
 import com.example.memorygame.R
@@ -39,7 +40,7 @@ class NoteViewHolder(
     private val onClickListener: ((Int) -> Unit)?,
     private val onLongClickListener: ((Int) -> Unit)?
 ) : RecyclerView.ViewHolder(itemView) {
-    private val layout: FrameLayout = itemView.findViewById(R.id.parent)
+    private val layout: LinearLayout = itemView.findViewById(R.id.parent)
     private val img: ImageView = itemView.findViewById(R.id.img)
 
     fun bind(note: ImageModel,level: Level) {
