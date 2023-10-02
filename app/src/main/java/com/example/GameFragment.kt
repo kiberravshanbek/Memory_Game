@@ -2,12 +2,14 @@ package com.example
 
 import AlImages
 import android.animation.ObjectAnimator
+import android.app.AlertDialog
 import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.view.LayoutInflater
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.view.animation.AnimationUtils
@@ -352,23 +354,14 @@ class GameFragment : Fragment(R.layout.fragment_game) {
     }
 
     private fun showGameOverDialog() {
-        val dialog = Dialog(requireContext())
+        val dialog = AlertDialog.Builder(requireContext())
 
-        dialog.setContentView(R.layout.dialog_you_win)
-
-        dialog.setCancelable(false)
-
-        dialog.findViewById<ImageView>(R.id.home_button).setOnClickListener {
-            dialog.dismiss()
-
-        }
-       // dialog.getWindow()?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog.findViewById<ImageView>(R.id.restart).setOnClickListener {
-
-            dialog.dismiss()
-        }
-
-        dialog.show()
+        val inflate=LayoutInflater.from(requireContext())
+        val dialogView=inflate.inflate(R.layout.dialog_you_win,null)
+        dialog.setView(dialogView)
+        val dialogD=dialog.create()
+        dialogD.getWindow()?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialogD.show()
     }
 
 }
