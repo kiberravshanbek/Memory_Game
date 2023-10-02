@@ -39,6 +39,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
 
 
     private var i: Int = 0
+    private var finish=-1
     private var bool1 = false
     private var bool2 = false
     private var resId1 = -1
@@ -59,7 +60,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
         var hard = args?.get("hard")
 
         if (easy == "easy") {
-            Toast.makeText(requireContext(), "1", Toast.LENGTH_SHORT).show()
+           // Toast.makeText(requireContext(), "1", Toast.LENGTH_SHORT).show()
             a = Level.Easy
             binding.gridView.layoutManager = GridLayoutManager(requireContext(), 6)
             val singlelist = getEasyShuflle()
@@ -73,7 +74,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
         }
 
         if (medium == "medium") {
-            Toast.makeText(requireContext(), "2", Toast.LENGTH_SHORT).show()
+           // Toast.makeText(requireContext(), "2", Toast.LENGTH_SHORT).show()
             a = Level.Medium
 
             binding.gridView.layoutManager = GridLayoutManager(requireContext(), 6)
@@ -86,7 +87,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
         }
 
         if (hard == "hard") {
-            Toast.makeText(requireContext(), "3", Toast.LENGTH_SHORT).show()
+           // Toast.makeText(requireContext(), "3", Toast.LENGTH_SHORT).show()
             a = Level.Hard
 
             binding.gridView.layoutManager = GridLayoutManager(requireContext(), 12)
@@ -112,7 +113,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
         imageAdapter = NoteAdapter(emptylist, a)
         binding.gridView.adapter = imageAdapter
 
-
+        if (finish==-1)finish=emptylist.size
         openAllCardsFirstTIME()
 
 
@@ -121,7 +122,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
 
 
         imageAdapter.setOnClickListener { index ->
-            Toast.makeText(requireContext(), "$dontClick", Toast.LENGTH_SHORT).show()
+           // Toast.makeText(requireContext(), "$dontClick", Toast.LENGTH_SHORT).show()
             var empty = ImageModel(R.drawable.empty1)
             if (emptylist.get(index).resId == empty.resId) {
                 return@setOnClickListener
@@ -145,13 +146,13 @@ class GameFragment : Fragment(R.layout.fragment_game) {
                 index1 = index
                 resId1 = adapterlist[index].resId
                 bool1 = true
-                Toast.makeText(requireContext(), "bos 1", Toast.LENGTH_SHORT).show()
+               // Toast.makeText(requireContext(), "bos 1", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
             if (bool1 && index != index1) {
 
                 if (resId1 == adapterlist[index].resId) {
-                    Toast.makeText(requireContext(), "bos 2", Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(requireContext(), "bos 2", Toast.LENGTH_SHORT).show()
                     ++dontClick
 
 
@@ -170,10 +171,14 @@ class GameFragment : Fragment(R.layout.fragment_game) {
 
                     }
                     countDownTimer.start()
-                    Toast.makeText(requireContext(), "sucsess", Toast.LENGTH_SHORT).show()
+                    finish-=2
+                   // Toast.makeText(requireContext(), "sucsess", Toast.LENGTH_SHORT).show()
+
+                    if (finish==0) Toast.makeText(requireContext(), "siz yutdingiz", Toast.LENGTH_SHORT).show()
+
                     bool1 = false
                 } else {
-                    Toast.makeText(requireContext(), "bos 3", Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(requireContext(), "bos 3", Toast.LENGTH_SHORT).show()
                     ++dontClick
 
 
@@ -184,7 +189,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
 
                         override fun onFinish() {
                             bool1 = false
-                            Toast.makeText(requireContext(), "faild", Toast.LENGTH_SHORT).show()
+                           // Toast.makeText(requireContext(), "faild", Toast.LENGTH_SHORT).show()
                             closemp()
 
 
