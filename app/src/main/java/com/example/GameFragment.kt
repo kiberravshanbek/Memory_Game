@@ -41,6 +41,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
     private var resId2=-1
     private var index1=-1
     private var index2=-1
+    private var countMYCards=0
 
 
 
@@ -62,6 +63,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
             adapterlist.addAll(singlelist)
             emptylist.addAll(getEasyEmpty())
             adapterlist.shuffle()
+            countMYCards=11
 
 
         }
@@ -76,6 +78,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
             adapterlist.addAll(singlelist)
             emptylist.addAll(getMediumEmpty())
             adapterlist.shuffle()
+            countMYCards=23
         }
 
         if (hard == "hard") {
@@ -88,6 +91,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
             adapterlist.addAll(singlelist)
             emptylist.addAll(getHardEmpty())
             adapterlist.shuffle()
+            countMYCards=47
         }
 
 
@@ -103,6 +107,11 @@ class GameFragment : Fragment(R.layout.fragment_game) {
 
         imageAdapter = NoteAdapter(emptylist, a)
         binding.gridView.adapter = imageAdapter
+
+
+        //
+        openAllCardsFirstTIME()
+
 
 
 
@@ -167,6 +176,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
                                         }
                                         .start()
                                 }
+
 
                             var  b0= binding.gridView.getChildAt(index1) as View
                             b0.animate()
@@ -332,6 +342,73 @@ class GameFragment : Fragment(R.layout.fragment_game) {
     fun close(){
         val open = MediaPlayer.create(context, R.raw.close)
         open.start()
+    }
+    fun openAllCardsFirstTIME(){
+        val countDownTimer = object : CountDownTimer(1000, 500) {
+            override fun onTick(p0: Long) {
+
+            }
+
+            override fun onFinish() {
+                for (i in 0..countMYCards) {
+                    var p = binding.gridView.getChildAt(i) as View
+                    p.animate()
+                        .setDuration(300)
+                        .rotationY(89f)
+                        .withEndAction {
+                            emptylist[i] = ImageModel(adapterlist.get(i).resId)
+                            imageAdapter.notifyDataSetChanged()
+
+                            p.rotationY = -89f
+                            p.animate()
+                                .setDuration(300)
+                                .rotationY(0f)
+                                .withEndAction {
+
+                                    val countDownTimer = object : CountDownTimer(1000, 500) {
+                                        override fun onTick(p0: Long) {
+
+                                        }
+
+                                        override fun onFinish() {
+                                            for (i in 0..countMYCards){
+                                                var  p= binding.gridView.getChildAt(i) as View
+                                                p.animate()
+                                                    .setDuration(300)
+                                                    .rotationY(-89f)
+                                                    .withEndAction {
+                                                        emptylist[i]= ImageModel(R.drawable.hayvonlar_3)
+                                                        imageAdapter.notifyDataSetChanged()
+
+                                                        p.rotationY = 89f
+                                                        p.animate()
+                                                            .setDuration(300)
+                                                            .rotationY(0f)
+                                                            .withEndAction {
+
+                                                            }
+                                                            .start()
+                                                    }
+
+                                            }
+                                        }
+
+                                    }
+                                    countDownTimer.start()
+
+                                }
+                                .start()
+                        }
+                        .start()
+                }
+
+            }
+
+        }
+        countDownTimer.start()
+
+        //
+
     }
 
 }
