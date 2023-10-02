@@ -1,20 +1,30 @@
 package com.example
 
 import AlImages
+import android.animation.ObjectAnimator
 import android.graphics.Color
+import android.media.MediaPlayer
 import android.os.Bundle
+import android.os.Handler
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import android.view.animation.DecelerateInterpolator
 import android.widget.Toast
+import androidx.core.view.children
+import androidx.lifecycle.lifecycleScope
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.adapter.ImageAdapter
 import com.example.memorygame.R
 import com.example.memorygame.databinding.FragmentGameBinding
 import com.example.model.ImageModel
 import com.example.model.Level
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 class GameFragment : Fragment(R.layout.fragment_game) {
@@ -24,6 +34,10 @@ class GameFragment : Fragment(R.layout.fragment_game) {
     private val allImage = AlImages()
     private var list = ArrayList<ImageModel>(allImage.addWords())
     private var adapterlist = ArrayList<ImageModel>()
+
+
+
+    private var i: Int = 0
     private var bool1=false
     private var bool2=false
     private var resId1=-1
@@ -51,6 +65,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
             adapterlist.addAll(singlelist)
             adapterlist.shuffle()
 
+
         }
 
         if (medium == "medium") {
@@ -72,6 +87,16 @@ class GameFragment : Fragment(R.layout.fragment_game) {
             adapterlist.addAll(singlelist)
             adapterlist.shuffle()
         }
+
+
+        val animator = ObjectAnimator.ofInt(binding.horizontalProgressBar, "progress", 100, 0)
+        animator.duration = 10000
+        animator.repeatCount = 1
+        animator.repeatMode = ObjectAnimator.REVERSE
+        animator.start()
+
+
+
 
 
        // var list = ArrayList<ImageModel>()
@@ -100,8 +125,28 @@ class GameFragment : Fragment(R.layout.fragment_game) {
 
 
         binding.gridView.setOnItemClickListener { _, view, i, id ->
+              open()
             val item=binding.gridView.getChildAt(i)
-            item.startAnimation(item_anim)
+            item.animate()
+                .setDuration(300)
+                .rotationY(89f)
+                .withEndAction {
+                   adapterlist[i] = ImageModel(R.drawable.img_4)
+                    imageAdapter.notifyDataSetChanged()
+
+
+
+                    Toast.makeText(requireContext(), "1", Toast.LENGTH_SHORT).show()
+                    view.rotationY = -89f
+                     view.animate()
+                        .setDuration(300)
+                        .rotationY(0f)
+                        .withEndAction {
+                            Toast.makeText(requireContext(), "2", Toast.LENGTH_SHORT).show()
+                        }
+                        .start()
+                }
+                .start()
 
             if (!bool1){
                 bool1=true
@@ -113,8 +158,10 @@ class GameFragment : Fragment(R.layout.fragment_game) {
                 bool1=false
                 if (resId1==adapterlist[i].resId){
                     Toast.makeText(requireActivity(), "sucsses", Toast.LENGTH_SHORT).show()
+                    win()
                 }else{
                     Toast.makeText(requireActivity(), "faild", Toast.LENGTH_SHORT).show()
+                    close()
                 }
             }
 
@@ -154,6 +201,18 @@ class GameFragment : Fragment(R.layout.fragment_game) {
         val hardList =list.shuffled().take(24)
         return hardList
 
+    }
+    fun open(){
+        val open = MediaPlayer.create(context, R.raw.open)
+        open.start()
+    }
+    fun win(){
+        val open = MediaPlayer.create(context, R.raw.removecard)
+        open.start()
+    }
+    fun close(){
+        val open = MediaPlayer.create(context, R.raw.close)
+        open.start()
     }
 
 }
