@@ -2,6 +2,9 @@ package com.example
 
 import AlImages
 import android.animation.ObjectAnimator
+import android.app.Dialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -107,6 +110,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
         animator.start()
 
 
+      //  showGameOverDialog()
 
 
 
@@ -174,7 +178,10 @@ class GameFragment : Fragment(R.layout.fragment_game) {
                     finish-=2
                    // Toast.makeText(requireContext(), "sucsess", Toast.LENGTH_SHORT).show()
 
-                    if (finish==0) Toast.makeText(requireContext(), "siz yutdingiz", Toast.LENGTH_SHORT).show()
+                    if (finish==0) {
+                        showGameOverDialog()
+                    }
+                    Toast.makeText(requireContext(), "siz yutdingiz", Toast.LENGTH_SHORT).show()
 
                     bool1 = false
                 } else {
@@ -344,14 +351,24 @@ class GameFragment : Fragment(R.layout.fragment_game) {
 
     }
 
-    fun youWin(): Boolean {
+    private fun showGameOverDialog() {
+        val dialog = Dialog(requireContext())
 
-        if (i in 0..emptylist.size - 1) {
-            if (emptylist.get(i).resId != R.drawable.empty1) {
-                return false
-            }
+        dialog.setContentView(R.layout.dialog_you_win)
+
+        dialog.setCancelable(false)
+
+        dialog.findViewById<ImageView>(R.id.home_button).setOnClickListener {
+            dialog.dismiss()
+
         }
-        return true
+       // dialog.getWindow()?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.findViewById<ImageView>(R.id.restart).setOnClickListener {
+
+            dialog.dismiss()
+        }
+
+        dialog.show()
     }
 
 }
