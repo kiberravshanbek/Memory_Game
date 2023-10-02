@@ -131,6 +131,10 @@ class GameFragment : Fragment(R.layout.fragment_game) {
             }
             if (bool1&&index!=index1){
                 if (resId1==adapterlist[index].resId){
+                    emptylist[index]= ImageModel(R.drawable.empty1)
+                    emptylist[index1]= ImageModel(R.drawable.empty1)
+                    imageAdapter.notifyItemChanged(index)
+                    imageAdapter.notifyItemChanged(index1)
                     Toast.makeText(requireContext(), "sucsess", Toast.LENGTH_SHORT).show()
                     bool1=false
                 }else{
