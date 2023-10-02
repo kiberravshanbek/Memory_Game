@@ -17,9 +17,9 @@ import com.example.memorygame.R.drawable
 import com.example.model.ImageModel
 import com.example.model.Level
 
-class ImageAdapter(val context:Context, val list:ArrayList<ImageModel>,val level:Level):BaseAdapter() {
+class ImageAdapter(val context:Context,list:ArrayList<ImageModel>,val level:Level):BaseAdapter() {
 
-    var imgList=ArrayList(list)
+    val imgList=ArrayList(list)
     override fun getCount(): Int {
         return when(level){
             Level.Easy->12
@@ -42,13 +42,11 @@ class ImageAdapter(val context:Context, val list:ArrayList<ImageModel>,val level
 
         when(level){
             Level.Easy-> {
-                viewImageView.layoutParams= ViewGroup.LayoutParams(100.dp,100.dp).apply {
-
+                viewImageView.layoutParams= ViewGroup.LayoutParams(110.dp,110.dp).apply {
                 }
-                viewImageView.setBackgroundResource(R.drawable.bg_img)
+                viewImageView.setBackgroundResource(R.drawable.my_bg)
                 val view = viewImageView.getChildAt(0) as ImageView
                 view.setImageResource(imgList[position].resId)
-
             }
             Level.Medium-> {
                 viewImageView.layoutParams= ViewGroup.LayoutParams(70.dp,70.dp)
