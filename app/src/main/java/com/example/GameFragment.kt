@@ -4,6 +4,7 @@ import AlImages
 import android.animation.ObjectAnimator
 import android.media.MediaPlayer
 import android.os.Bundle
+import android.os.CountDownTimer
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.view.animation.AnimationUtils
@@ -104,6 +105,8 @@ class GameFragment : Fragment(R.layout.fragment_game) {
         binding.gridView.adapter = imageAdapter
 
 
+
+
         imageAdapter.setOnClickListener { index->
           var  p= binding.gridView.getChildAt(index) as View
             p.animate()
@@ -134,12 +137,59 @@ class GameFragment : Fragment(R.layout.fragment_game) {
                     Toast.makeText(requireContext(), "sucsess", Toast.LENGTH_SHORT).show()
                     bool1=false
                 }else{
-                    bool1=false
-                    Toast.makeText(requireContext(), "faild", Toast.LENGTH_SHORT).show()
-                    emptylist[index]= ImageModel(R.drawable.hayvonlar_3)
-                    emptylist[index1]= ImageModel(R.drawable.hayvonlar_3)
-                    imageAdapter.notifyItemChanged(index)
-                    imageAdapter.notifyItemChanged(index1)
+                    val countDownTimer = object : CountDownTimer(1000, 500) {
+                        override fun onTick(p0: Long) {
+
+                        }
+
+                        override fun onFinish() {
+                            bool1=false
+                            Toast.makeText(requireContext(), "faild", Toast.LENGTH_SHORT).show()
+
+                            var  p= binding.gridView.getChildAt(index) as View
+                            p.animate()
+                                .setDuration(300)
+                                .rotationY(-89f)
+                                .withEndAction {
+                                    emptylist[index]= ImageModel(R.drawable.hayvonlar_3)
+                                    imageAdapter.notifyDataSetChanged()
+
+                                    p.rotationY = 89f
+                                    p.animate()
+                                        .setDuration(300)
+                                        .rotationY(0f)
+                                        .withEndAction {
+
+                                        }
+                                        .start()
+                                }
+
+                            var  b0= binding.gridView.getChildAt(index1) as View
+                            b0.animate()
+                                .setDuration(300)
+                                .rotationY(-89f)
+                                .withEndAction {
+                                    emptylist[index1]= ImageModel(R.drawable.hayvonlar_3)
+                                    imageAdapter.notifyDataSetChanged()
+
+                                    b0.rotationY = 89f
+                                    b0.animate()
+                                        .setDuration(300)
+                                        .rotationY(0f)
+                                        .withEndAction {
+
+                                        }
+                                        .start()
+                                }
+
+                        //    emptylist[index]= ImageModel(R.drawable.hayvonlar_3)
+                        //    emptylist[index1]= ImageModel(R.drawable.hayvonlar_3)
+                        //    imageAdapter.notifyItemChanged(index)
+                        //    imageAdapter.notifyItemChanged(index1)
+                        }
+
+                    }
+                    countDownTimer.start()
 
                 }
             }
