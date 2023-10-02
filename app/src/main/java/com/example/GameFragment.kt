@@ -2,29 +2,21 @@ package com.example
 
 import AlImages
 import android.animation.ObjectAnimator
-import android.graphics.Color
 import android.media.MediaPlayer
 import android.os.Bundle
-import android.os.Handler
-import android.util.Log
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.animation.AnimationUtils
-import android.view.animation.DecelerateInterpolator
+import android.widget.AdapterView
+import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.Toast
-import androidx.core.view.children
-import androidx.lifecycle.lifecycleScope
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.adapter.ImageAdapter
 import com.example.memorygame.R
 import com.example.memorygame.databinding.FragmentGameBinding
 import com.example.model.ImageModel
 import com.example.model.Level
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 
 class GameFragment : Fragment(R.layout.fragment_game) {
@@ -34,6 +26,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
     private val allImage = AlImages()
     private var list = ArrayList<ImageModel>(allImage.addWords())
     private var adapterlist = ArrayList<ImageModel>()
+    private lateinit var imageAdapter:ImageAdapter
 
 
 
@@ -115,7 +108,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
 
 
 
-        val imageAdapter = ImageAdapter(requireContext(), adapterlist, a)
+        imageAdapter = ImageAdapter(requireContext(), adapterlist, a)
         binding.gridView.adapter = imageAdapter
         val anim=AnimationUtils.loadAnimation(requireContext(),R.anim.animation)
         binding.gridView.animation=anim
@@ -123,22 +116,20 @@ class GameFragment : Fragment(R.layout.fragment_game) {
         val item_anim=AnimationUtils.loadAnimation(requireContext(),R.anim.fade_in)
 
 
+        binding.gridView.setOnItemClickListener(AdapterView.OnItemClickListener(){ adapterView: AdapterView<*>, view2: View, i: Int, l: Long ->
 
-        binding.gridView.setOnItemClickListener { _, view, i, id ->
-              open()
-            val item=binding.gridView.getChildAt(i)
-            item.animate()
+            val linear=view2 as LinearLayout
+            val imageView = linear.getChildAt(0) as ImageView
+            imageView.setImageResource(R.drawable.hayvonlar_3)
+            linear.animate()
                 .setDuration(300)
                 .rotationY(89f)
                 .withEndAction {
-                   adapterlist[i] = ImageModel(R.drawable.img_4)
-                    imageAdapter.notifyDataSetChanged()
-
-
+                    adapterlist[i]= ImageModel(R.drawable.hayvonlar_3)
 
                     Toast.makeText(requireContext(), "1", Toast.LENGTH_SHORT).show()
                     view.rotationY = -89f
-                     view.animate()
+                    view.animate()
                         .setDuration(300)
                         .rotationY(0f)
                         .withEndAction {
@@ -148,11 +139,40 @@ class GameFragment : Fragment(R.layout.fragment_game) {
                 }
                 .start()
 
+            linear.animate()
+                .setDuration(300)
+                .rotationY(89f)
+                .withEndAction {
+                    //adapterlist.set(i,ImageModel(R.drawable.img_10))
+                    adapterlist.removeAt(i)
+                    imageAdapter.notifyDataSetChanged()
+
+                    // view.setBackgroundResource(R.drawable.img_4)
+                    view.rotationY = -89f
+                    view.animate()
+                        .setDuration(300)
+                        .rotationY(0f)
+                        .withEndAction {
+                        }
+                        .start()
+                }
+                .start()
+
+
+        })
+//        binding.gridView.setOnItemClickListener { _, view, i, id ->
+//              //open()
+//            val item=view as LinearLayout
+//            val at = item.getChildAt(0) as ImageView
+//
+
+
+            imageAdapter.notifyDataSetInvalidated()
             if (!bool1){
                 bool1=true
                 index1=i
                 resId1=adapterlist[i].resId
-                return@setOnItemClickListener
+                return
             }
             if (bool1){
                 bool1=false
@@ -165,25 +185,9 @@ class GameFragment : Fragment(R.layout.fragment_game) {
                 }
             }
 
-          //view.animate()
-          //    .setDuration(300)
-          //    .rotationY(89f)
-          //    .withEndAction {
-          //        //adapterlist.set(i,ImageModel(R.drawable.img_10))
-          //        adapterlist.removeAt(i)
-          //        imageAdapter.notifyDataSetChanged()
 
-          //       // view.setBackgroundResource(R.drawable.img_4)
-          //        view.rotationY = -89f
-          //         view.animate()
-          //            .setDuration(300)
-          //            .rotationY(0f)
-          //            .withEndAction {
-          //            }
-          //            .start()
-          //    }
-          //    .start()
-        }
+
+        imageAdapter.notifyDataSetChanged()
 
 
     }
