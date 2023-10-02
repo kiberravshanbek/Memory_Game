@@ -56,6 +56,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
         back.setOnClickListener {
             parentFragmentManager.beginTransaction()
                 .setReorderingAllowed(true)
+                .addToBackStack("HomeScreenFragment")
                 .replace(R.id.mainActivity,HomeScreenFragment()).commit()
         }
 
