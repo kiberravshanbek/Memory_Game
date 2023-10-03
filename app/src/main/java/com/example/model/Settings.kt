@@ -22,25 +22,31 @@ class Settings( context: Context) {
         preferences.edit().putInt("easy",level).apply()
     }
     fun getEasyLevel():Int{
-        return preferences.getInt("easy",0)
+        return preferences.getInt("easy",1)
 
     }
     fun setMediumLevel(level:Int){
-        preferences.edit().putInt("easy",level).apply()
+        preferences.edit().putInt("medium",level).apply()
     }
     fun getMediumLevel():Int{
-        return preferences.getInt("easy",0)
+        return preferences.getInt("medium",1)
 
     }
     fun setHardLevel(level:Int){
-        preferences.edit().putInt("easy",level).apply()
+        preferences.edit().putInt("hard",level).apply()
     }
     fun getHardLevel():Int{
-        return preferences.getInt("easy",0)
+        return preferences.getInt("hard",1)
 
     }
+    fun setCurrentLevel(level:String){
+        preferences.edit().putString("level",level).apply()
+    }
+    fun getCurrentLevel():String?{
+        return preferences.getString("level","")
+    }
 
-        fun clearCurrentUser(){
+    fun clearCurrentUser(){
             preferences.edit().putString("login",null).putString("password",null).apply()
-        }
+    }
     }

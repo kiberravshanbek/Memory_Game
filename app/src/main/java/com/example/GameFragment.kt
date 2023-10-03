@@ -26,6 +26,7 @@ import com.example.memorygame.R
 import com.example.memorygame.databinding.FragmentGameBinding
 import com.example.model.ImageModel
 import com.example.model.Level
+import com.example.model.Settings
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -33,6 +34,7 @@ import kotlinx.coroutines.launch
 class GameFragment : Fragment(R.layout.fragment_game) {
 
     private val binding by viewBinding(FragmentGameBinding::bind)
+    private val settings by lazy { Settings.getSettings(requireContext()) }
     private var a = Level.Easy
     private val allImage = AlImages()
     private var list = ArrayList<ImageModel>(allImage.addWords())
@@ -62,10 +64,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
 
         var list = ArrayList<ImageModel>(allImage.addWords())
 
-        val args = this.arguments
-         easy = args?.get("easy")!!
-         medium = args?.get("medium")!!
-         hard = args?.get("hard")!!
+        val currentLevel = settings.getCurrentLevel()
 
         restartGame()
 
