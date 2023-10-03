@@ -62,7 +62,7 @@
         android:layout_height="50dp"
         android:layout_marginBottom="15dp"
         android:fontFamily="@font/architects_daughter"
-        android:text="100"
+        android:text="0"
         android:textColor="#FAFAFA"
         android:textSize="24sp"
         android:layout_marginStart="120dp"

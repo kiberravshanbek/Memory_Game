@@ -9,10 +9,12 @@ import android.graphics.drawable.ColorDrawable
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.util.Log
 import android.view.LayoutInflater
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.view.animation.AnimationUtils
+import android.view.animation.DecelerateInterpolator
 import android.widget.AdapterView
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -23,9 +25,11 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.adapter.ImageAdapter
 import com.example.adapter.NoteAdapter
 import com.example.memorygame.R
+import com.example.memorygame.databinding.DialogYouWinBinding
 import com.example.memorygame.databinding.FragmentGameBinding
 import com.example.model.ImageModel
 import com.example.model.Level
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -33,6 +37,7 @@ import kotlinx.coroutines.launch
 class GameFragment : Fragment(R.layout.fragment_game) {
 
     private val binding by viewBinding(FragmentGameBinding::bind)
+    private val dialogwin by viewBinding(DialogYouWinBinding::bind)
     private var a = Level.Easy
     private val allImage = AlImages()
     private var list = ArrayList<ImageModel>(allImage.addWords())
@@ -41,9 +46,12 @@ class GameFragment : Fragment(R.layout.fragment_game) {
     private lateinit var imageAdapter: NoteAdapter
     private lateinit var countd1: CountDownTimer
     private lateinit var countd2: CountDownTimer
+    private lateinit var job: Job
+
 
 
     private var i: Int = 0
+    private var setTime=0
     private var finish=-1
     private var bool1 = false
     private var bool2 = false
@@ -53,6 +61,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
     private var index2 = -1
     private var countMYCards = 0
     private var dontClick = 0
+    private var StepCount=0
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -107,12 +116,30 @@ class GameFragment : Fragment(R.layout.fragment_game) {
 
         val animator = ObjectAnimator.ofInt(binding.horizontalProgressBar, "progress", 100, 0)
         animator.duration = 10000
-        animator.repeatCount = 1
-        animator.repeatMode = ObjectAnimator.REVERSE
+        animator.repeatCount = 0
+        val process = binding.horizontalProgressBar
+
+
+        val animation = ObjectAnimator.ofInt(process, "progress", 100, 0)
+        animation.duration = 10000L
+        animation.start()
+        val progressBar = binding.horizontalProgressBar
+        progressBar.max = setTime
+        job = lifecycleScope.launch {
+            while (setTime > 0) {
+                progressBar.progress = setTime
+                setTime--
+                binding.time.text = setTime.toString()
+                if (setTime == 0) {
+                    Toast.makeText(requireContext(), "Game Over", Toast.LENGTH_SHORT).show()
+                }
+                delay(1000L)
+            }
+        }
         animator.start()
 
 
-      //  showGameOverDialog()
+     //   showGameOverDialog()
 
 
 
@@ -136,6 +163,8 @@ class GameFragment : Fragment(R.layout.fragment_game) {
             if (dontClick > 1) {
                 return@setOnClickListener
             }
+            StepCount++
+            binding.time.text="$StepCount"
 
             var p = binding.gridView.getChildAt(index) as View
             p.animate().setDuration(300).rotationY(89f).withEndAction {
@@ -356,12 +385,29 @@ class GameFragment : Fragment(R.layout.fragment_game) {
     private fun showGameOverDialog() {
         val dialog = AlertDialog.Builder(requireContext())
 
-        val inflate=LayoutInflater.from(requireContext())
-        val dialogView=inflate.inflate(R.layout.dialog_you_win,null)
+        val inflate = LayoutInflater.from(requireContext())
+        val dialogView = inflate.inflate(R.layout.dialog_you_win, null)
         dialog.setView(dialogView)
-        val dialogD=dialog.create()
+        val dialogD = dialog.create()
+
+        val customButton = dialogView.findViewById<ImageView>(R.id.next)
+        val ButtonHome = dialogView.findViewById<ImageView>(R.id.home_button)
+
+        customButton.setOnClickListener {
+            dialogD.dismiss()
+        }
+
+        ButtonHome.setOnClickListener {
+            Toast.makeText(requireContext(), "sfv", Toast.LENGTH_SHORT).show()
+            dialogD.dismiss()
+            parentFragmentManager.beginTransaction().replace(R.id.mainActivity,HomeScreenFragment()).commit()
+        }
+
         dialogD.getWindow()?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialogD.show()
+
+
+
     }
 
 }
