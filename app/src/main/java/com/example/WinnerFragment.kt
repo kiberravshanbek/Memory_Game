@@ -10,10 +10,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import com.example.memorygame.R
+import com.example.model.Settings
 
 
 class WinnerFragment : Fragment(R.layout.fragment_winner) {
     private lateinit var easy: Any
+    private val settings by lazy { Settings.getSettings(requireContext()) }
     private lateinit var medium: Any
     private lateinit var hard: Any
     private lateinit var kod: Any
@@ -66,17 +68,22 @@ class WinnerFragment : Fragment(R.layout.fragment_winner) {
             dialogD.dismiss()
             val bundle=Bundle()
             if (kod=="easy"){
+                settings.setEasyLevel(settings.getEasyLevel().inc())
                 bundle.putString("easy","easy")
                 bundle.putString("medium","null")
                 bundle.putString("hard","null")
             }
             if (kod=="medium"){
+
+                settings.setMediumLevel(settings.getMediumLevel().inc())
                 bundle.putString("easy","null")
                 bundle.putString("medium","medium")
                 bundle.putString("hard","null")
 
             }
             if (kod=="hard"){
+
+                settings.setHardLevel(settings.getHardLevel().inc())
                 bundle.putString("easy","null")
                 bundle.putString("medium","null")
                 bundle.putString("hard","hard")

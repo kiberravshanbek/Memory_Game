@@ -31,6 +31,7 @@ import com.example.memorygame.R
 import com.example.memorygame.databinding.FragmentGameBinding
 import com.example.model.ImageModel
 import com.example.model.Level
+import com.example.model.Settings
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -38,7 +39,7 @@ import java.util.Locale
 
 
 class GameFragment : Fragment(R.layout.fragment_game) {
-
+    private val settings by lazy { Settings.getSettings(requireContext()) }
     private val binding by viewBinding(FragmentGameBinding::bind)
     private lateinit var job: Job
     private lateinit var job2: Job
@@ -105,7 +106,10 @@ class GameFragment : Fragment(R.layout.fragment_game) {
         if (easy == "easy") {
             // Toast.makeText(requireContext(), "1", Toast.LENGTH_SHORT).show()
             a = Level.Easy
+            val level = settings.getEasyLevel()
+            binding.levelCount.text="Level $level"
             binding.gridView.layoutManager = GridLayoutManager(requireContext(), 6)
+
             val singlelist = getEasyShuflle()
             adapterlist.addAll(singlelist)
             adapterlist.addAll(singlelist)
@@ -119,7 +123,8 @@ class GameFragment : Fragment(R.layout.fragment_game) {
         if (medium =="medium") {
             // Toast.makeText(requireContext(), "2", Toast.LENGTH_SHORT).show()
             a = Level.Medium
-
+            val level = settings.getMediumLevel()
+            binding.levelCount.text="Level $level"
             binding.gridView.layoutManager = GridLayoutManager(requireContext(), 6)
             val singlelist = getMediumShuflle()
             adapterlist.clear()
@@ -134,7 +139,8 @@ class GameFragment : Fragment(R.layout.fragment_game) {
         if (hard =="hard") {
             // Toast.makeText(requireContext(), "3", Toast.LENGTH_SHORT).show()
             a = Level.Hard
-
+            val level = settings.getHardLevel()
+            binding.levelCount.text="Level $level"
             binding.gridView.layoutManager = GridLayoutManager(requireContext(), 12)
             val singlelist = getHardShuflle()
             adapterlist.clear()

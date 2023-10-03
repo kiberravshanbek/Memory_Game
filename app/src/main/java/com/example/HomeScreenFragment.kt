@@ -9,14 +9,17 @@ import android.widget.Toast
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.memorygame.R
 import com.example.memorygame.databinding.FragmentHomeScreenBinding
+import com.example.model.Settings
 
 
 class HomeScreenFragment : Fragment(R.layout.fragment_home_screen) {
     private val binding by viewBinding(FragmentHomeScreenBinding::bind)
+    private val settings by lazy { Settings.getSettings(requireContext()) }
     private val bundle=Bundle()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.easy.setOnClickListener {
+            settings.setCurrentLevel("easy")
             binding.easy.animate()
                 .scaleX(0.7f)
                 .setDuration(200)
@@ -43,6 +46,8 @@ class HomeScreenFragment : Fragment(R.layout.fragment_home_screen) {
         }
 
         binding.medium.setOnClickListener {
+
+            settings.setCurrentLevel("medium")
             binding.medium.animate()
                 .scaleX(0.7f)
                 .setDuration(200)
@@ -69,6 +74,8 @@ class HomeScreenFragment : Fragment(R.layout.fragment_home_screen) {
         }
 
         binding.hard.setOnClickListener {
+
+            settings.setCurrentLevel("hard")
             binding.hard.animate()
                 .scaleX(0.7f)
                 .setDuration(200)
