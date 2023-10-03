@@ -2,20 +2,25 @@ package com.example
 
 import AlImages
 import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.Dialog
+import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.util.Log
 import android.view.LayoutInflater
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.view.animation.AnimationUtils
+import android.view.animation.DecelerateInterpolator
 import android.widget.AdapterView
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
@@ -26,13 +31,18 @@ import com.example.memorygame.R
 import com.example.memorygame.databinding.FragmentGameBinding
 import com.example.model.ImageModel
 import com.example.model.Level
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.util.Locale
 
 
 class GameFragment : Fragment(R.layout.fragment_game) {
 
     private val binding by viewBinding(FragmentGameBinding::bind)
+    private lateinit var job: Job
+    private lateinit var job2: Job
+    private lateinit var job3: Job
     private var a = Level.Easy
     private val allImage = AlImages()
     private var list = ArrayList<ImageModel>(allImage.addWords())
@@ -40,14 +50,13 @@ class GameFragment : Fragment(R.layout.fragment_game) {
     private var emptylist = ArrayList<ImageModel>()
     private lateinit var imageAdapter: NoteAdapter
     private lateinit var countd1: CountDownTimer
-    private lateinit var countd2: CountDownTimer
 
 
     private var i: Int = 0
-    private lateinit var easy:Any
-    private lateinit var medium:Any
-    private lateinit var hard:Any
-    private var finish=-1
+    private lateinit var easy: Any
+    private lateinit var medium: Any
+    private lateinit var hard: Any
+    private var finish = -1
     private var bool1 = false
     private var bool2 = false
     private var resId1 = -1
@@ -57,35 +66,39 @@ class GameFragment : Fragment(R.layout.fragment_game) {
     private var countMYCards = 0
     private var dontClick = 0
 
+    //set ster
+    var minutes=0L
+    var seconds=0L
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         var list = ArrayList<ImageModel>(allImage.addWords())
 
         val args = this.arguments
-         easy = args?.get("easy")!!
-         medium = args?.get("medium")!!
-         hard = args?.get("hard")!!
+        easy = args?.get("easy")!!
+        medium = args?.get("medium")!!
+        hard = args?.get("hard")!!
 
         restartGame()
 
-        val homeButton=view.findViewById<ImageView>(R.id.play_home)
-        homeButton.setOnClickListener {
-            parentFragmentManager.beginTransaction().remove(GameFragment()).commit()
-            parentFragmentManager.beginTransaction().replace(R.id.mainActivity,HomeScreenFragment()).commit()
+
+        val homeButton = view.findViewById<ImageView>(R.id.play_home)
+        lifecycleScope.launch {
+            delay(2000)
+            homeButton.setOnClickListener {
+                parentFragmentManager.beginTransaction()
+                    .replace(R.id.mainActivity, HomeScreenFragment()).commit()
+            }
         }
 
 
-
-      //  showGameOverDialog()
-
-
-
-
+        //  showGameOverDialog()
 
 
     }
-    fun restartGame(){
+
+    fun restartGame() {
         emptylist.clear()
         adapterlist.clear()
 
@@ -132,15 +145,13 @@ class GameFragment : Fragment(R.layout.fragment_game) {
             countMYCards = 47
         }
 
-        val animator = ObjectAnimator.ofInt(binding.horizontalProgressBar, "progress", 100, 0)
-        animator.duration = 10000
-        animator.repeatCount = 1
-        animator.repeatMode = ObjectAnimator.REVERSE
-        animator.start()
+        Progresbar()
+
+
         imageAdapter = NoteAdapter(emptylist, a)
         binding.gridView.adapter = imageAdapter
 
-        if (finish==-1)finish=emptylist.size
+        if (finish == -1) finish = emptylist.size
         openAllCardsFirstTIME()
 
 
@@ -198,11 +209,11 @@ class GameFragment : Fragment(R.layout.fragment_game) {
 
                     }
                     countDownTimer.start()
-                    finish-=2
+                    finish -= 2
                     // Toast.makeText(requireContext(), "sucsess", Toast.LENGTH_SHORT).show()
 
-                    if (finish==0) {
-                        showGameOverDialog()
+                    if (finish == 0) {
+                        showGameOverDialog(setStar())
                     }
                     Toast.makeText(requireContext(), "siz yutdingiz", Toast.LENGTH_SHORT).show()
 
@@ -263,10 +274,14 @@ class GameFragment : Fragment(R.layout.fragment_game) {
         }
 
     }
-    override fun onDestroyView() {
-        // countd1.cancel()
-        // countd2.cancel()
 
+    override fun onDestroyView() {
+        if (::countd1.isInitialized)
+            countd1.cancel()
+        if (::job.isInitialized)
+            job
+        // if (::open2.isInitialized)
+        //    open2.cancel()
         super.onDestroyView()
     }
 
@@ -330,9 +345,20 @@ class GameFragment : Fragment(R.layout.fragment_game) {
     }
 
     fun openAllCardsFirstTIME() {
-        if (isAdded){
+        var time = 1L
+        if (easy == "easy") {
+            time = 2000L
+        }
+        if (medium == "medium") {
+            time = 4000L
+        }
+        if (hard == "hard") {
+            time = 6000L
+        }
 
-            lifecycleScope.launch {
+
+        if (isAdded) {
+            job2 = lifecycleScope.launch {
                 delay(1000)
                 for (i in 0..countMYCards) {
                     var p = binding.gridView.getChildAt(i) as View
@@ -347,29 +373,22 @@ class GameFragment : Fragment(R.layout.fragment_game) {
                         }.start()
                     }.start()
                     //
-                    countd2 = object : CountDownTimer(1000, 500) {
-                        override fun onTick(p0: Long) {
+                    job3 = lifecycleScope.launch {
+                        delay(time)
+                        for (i in 0..countMYCards) {
+                            var p = binding.gridView.getChildAt(i)
+                            p.animate().setDuration(300).rotationY(-89f).withEndAction {
+                                emptylist[i] = ImageModel(R.drawable.hayvonlar_3)
+                                imageAdapter.notifyDataSetChanged()
 
-                        }
+                                p.rotationY = 89f
+                                p.animate().setDuration(300).rotationY(0f).withEndAction {
 
-                        override fun onFinish() {
-                            for (i in 0..countMYCards) {
-                                var p = binding.gridView.getChildAt(i)
-                                p.animate().setDuration(300).rotationY(-89f).withEndAction {
-                                    emptylist[i] = ImageModel(R.drawable.hayvonlar_3)
-                                    imageAdapter.notifyDataSetChanged()
-
-                                    p.rotationY = 89f
-                                    p.animate().setDuration(300).rotationY(0f).withEndAction {
-
-                                    }.start()
-                                }
-
+                                }.start()
                             }
-                        }
 
+                        }
                     }
-                    countd2.start()
 
                 }
 
@@ -377,30 +396,167 @@ class GameFragment : Fragment(R.layout.fragment_game) {
         }
 
 
-
     }
 
-    private fun showGameOverDialog() {
+    private fun showGameOverDialog(a: Int) {
         val dialog = AlertDialog.Builder(requireContext())
 
-        val inflate=LayoutInflater.from(requireContext())
-        val dialogView=inflate.inflate(R.layout.dialog_you_win,null)
+        val inflate = LayoutInflater.from(requireContext())
+        val dialogView = inflate.inflate(R.layout.dialog_you_win, null)
         dialog.setView(dialogView)
-        val dialogD=dialog.create()
-        val home=dialogView.findViewById<ImageView>(R.id.home_button)
+        val dialogD = dialog.create()
+        val star1 = dialogView.findViewById<ImageView>(R.id.star1)
+        val star2 = dialogView.findViewById<ImageView>(R.id.star2)
+        val star3 = dialogView.findViewById<ImageView>(R.id.star3)
+        if (a == 1) {
+            star1.setImageResource(R.drawable.str)
+        }
+        if (a == 2) {
+            star1.setImageResource(R.drawable.str)
+            star2.setImageResource(R.drawable.str)
+
+        }
+        if (a == 3) {
+            star1.setImageResource(R.drawable.str)
+            star2.setImageResource(R.drawable.str)
+            star3.setImageResource(R.drawable.str)
+        }
+
+
+        val home = dialogView.findViewById<ImageView>(R.id.home_button)
         home.setOnClickListener {
             dialogD.dismiss()
             parentFragmentManager.beginTransaction().remove(GameFragment()).commit()
-            parentFragmentManager.beginTransaction().replace(R.id.mainActivity,HomeScreenFragment()).commit()
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.mainActivity, HomeScreenFragment()).commit()
 
         }
-        val next=dialogView.findViewById<ImageView>(R.id.win_next)
+        val next = dialogView.findViewById<ImageView>(R.id.win_next)
+        next.setOnClickListener {
+            dialogD.dismiss()
+            countd1.cancel()
+             minutes=0L
+             seconds=0L
+            restartGame()
+            Progresbar()
+        }
+        dialogD.getWindow()?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialogD.show()
+    }
+
+    private fun Progresbar() {
+        var minut = 0
+        if (a == Level.Easy) {
+            minut = 2
+        }
+        if (a == Level.Medium) {
+            minut = 4
+        }
+        if (a == Level.Hard) {
+            minut = 7
+        }
+        job = lifecycleScope.launch {
+            binding.time.text = String.format(Locale.getDefault(), "%02d:%02d", minut, 0)
+            delay(2500)
+            countd1 = object : CountDownTimer((minut * 60 * 1000).toLong(), 1000) {
+                override fun onTick(millisUntilFinished: Long) {
+                    minutes = millisUntilFinished / (1000 * 60)
+                     seconds = (millisUntilFinished / 1000) % 60
+                    val timeLeftFormatted =
+                        String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds)
+                    binding.time.text = timeLeftFormatted
+
+                }
+
+                override fun onFinish() {
+                    binding.time.text = "00:00"
+                    YouLost()
+                }
+            }
+
+            countd1.start()
+
+            val process = binding.horizontalProgressBar
+            val animation = ObjectAnimator.ofInt(process, "progress", 100, 0)
+            animation.duration = (minut * 60 * 1000).toLong()
+            animation.repeatCount = 0
+            animation.interpolator = DecelerateInterpolator()
+            animation.start()
+
+            val progressBar = binding.horizontalProgressBar
+            progressBar.max = 100
+        }
+
+    }
+
+    @SuppressLint("MissingInflatedId")
+    private fun YouLost() {
+        val dialog = AlertDialog.Builder(requireContext())
+
+        val inflate = LayoutInflater.from(requireContext())
+        val dialogView = inflate.inflate(R.layout.dialog_you_win, null)
+        dialog.setView(dialogView)
+        val dialogD = dialog.create()
+        val home = dialogView.findViewById<ImageView>(R.id.home_button)
+        home.setOnClickListener {
+            dialogD.dismiss()
+            parentFragmentManager.beginTransaction().remove(GameFragment()).commit()
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.mainActivity, HomeScreenFragment()).commit()
+
+        }
+        val text = dialogView.findViewById<TextView>(R.id.youWin)
+        text.text = "You Lost!"
+
+        val next = dialogView.findViewById<ImageView>(R.id.win_next)
+        next.setImageBitmap(BitmapFactory.decodeResource(this.getResources(), R.drawable.restart));
         next.setOnClickListener {
             dialogD.dismiss()
             restartGame()
         }
         dialogD.getWindow()?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialogD.show()
+    }
+
+    private fun setStar():Int{
+        if (easy == "easy") {
+            if (minutes>=1&& seconds>20){
+                return 3
+            }
+            if (minutes>=1&& seconds<20){
+                return 2
+            }
+            if (minutes==0L && seconds<50){
+                return 1
+            }
+
+        }
+        if (medium == "medium") {
+            if (minutes>=3 && seconds>20){
+                return 3
+            }
+            if (minutes>=2&& seconds<20&& minutes<=3){
+                return 2
+            }
+            if (minutes<=2L && seconds<20){
+                return 1
+            }
+
+        }
+        if (hard == "hard") {
+            if (minutes>=5 && seconds>20){
+                return 3
+            }
+            if (minutes>=3&& seconds<20&& minutes<=5){
+                return 2
+            }
+            if (minutes<=2L && seconds<20){
+                return 1
+            }
+
+        }
+        return 0
+
     }
 
 }

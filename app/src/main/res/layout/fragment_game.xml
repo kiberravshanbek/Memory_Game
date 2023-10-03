@@ -60,11 +60,10 @@
         android:background="@drawable/bg_for_dialog"
         android:gravity="center"
         android:paddingHorizontal="4dp"
-        android:layout_width="67dp"
+        android:layout_width="120dp"
         android:layout_height="50dp"
         android:layout_marginBottom="15dp"
         android:fontFamily="@font/architects_daughter"
-        android:text="0"
         android:textColor="#FAFAFA"
         android:textSize="24sp"
         android:layout_marginStart="120dp"
@@ -72,7 +71,7 @@
         app:layout_constraintBottom_toTopOf="@+id/horizontal_progress_bar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/home_button" />
+        app:layout_constraintTop_toTopOf="@+id/play_home" />
 
     <TextView
 
@@ -93,7 +92,7 @@
         app:layout_constraintBottom_toTopOf="@+id/horizontal_progress_bar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/home_button" />
+        app:layout_constraintTop_toTopOf="@+id/play_home" />
 
     <ProgressBar
         android:id="@+id/horizontal_progress_bar"
@@ -102,10 +101,11 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="10dp"
         android:progressTint="#7EDD0F"
+        android:progress="@integer/material_motion_duration_long_1"
         app:layout_constraintBottom_toBottomOf="@+id/level"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintEnd_toStartOf="@id/level"
-        app:layout_constraintStart_toEndOf="@+id/home_button"
+        app:layout_constraintStart_toEndOf="@+id/play_home"
         />
     <ImageView
         android:id="@+id/level"

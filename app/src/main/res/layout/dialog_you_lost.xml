@@ -1,50 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="300dp"
-    android:layout_marginHorizontal="20dp"
-    android:layout_height="160dp"
-
-    android:background="@drawable/bg_for_dialog"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:background="#00000000"
+    android:paddingVertical="80dp"
+    android:paddingHorizontal="60dp"
+    android:layout_gravity="center"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:background="@drawable/bg_for_dialog"
+        android:layout_height="200dp">
 
-    <TextView
 
-        android:id="@+id/youWin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="32dp"
-        android:gravity="top|center"
-        android:text="You lost!"
-        android:textSize="32sp"
-        android:textStyle="bold"
-        android:textColor="#228E0F"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    </RelativeLayout>  <TextView
+
+    android:id="@+id/youWin"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentStart="true"
+    android:layout_alignParentEnd="true"
+    android:layout_marginTop="32dp"
+    android:gravity="top|center"
+    android:text="You Lost!"
+    android:textSize="32sp"
+    android:textStyle="bold"
+    android:textColor="#228E0F"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:padding="18dp"
         android:background="@drawable/emp"
-        android:id="@+id/lost_home"
+        android:id="@+id/home_buttonye"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_alignParentStart="true"
-
-
+        android:clickable="true"
+        android:focusable="true"
         android:layout_alignParentBottom="true"
-
         android:layout_marginStart="45dp"
-
         android:src="@drawable/home_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/youWin" />
 
+    <LinearLayout
+        android:layout_width="250dp"
+        android:layout_height="60dp"
+        android:gravity="center"
+        android:layout_gravity="center_vertical"
+        android:layout_toStartOf="@id/win_restart"
+        android:layout_toEndOf="@id/home_buttonye"
+        android:orientation="horizontal"
+        android:layout_marginTop="85dp">
+
+        <ImageView
+            android:id="@+id/star1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/starwin" />
+
+        <ImageView
+            android:id="@+id/star2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/starwin" />
+
+        <ImageView
+            android:id="@+id/star3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/starwin" />
+
+
+    </LinearLayout>
 
     <ImageView
-        android:id="@+id/restart"
+        android:id="@+id/win_restart"
         android:layout_width="60dp"
+        android:clickable="true"
+        android:focusable="true"
         android:layout_height="60dp"
         android:layout_alignParentEnd="true"
         android:background="@drawable/emp"
@@ -54,5 +90,7 @@
         android:src="@drawable/restart"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/youWin" />
+
+
 
 </RelativeLayout>
