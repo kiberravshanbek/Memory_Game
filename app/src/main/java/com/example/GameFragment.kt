@@ -116,7 +116,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
 
         }
 
-        if (medium == "medium") {
+        if (medium =="medium") {
             // Toast.makeText(requireContext(), "2", Toast.LENGTH_SHORT).show()
             a = Level.Medium
 
@@ -131,7 +131,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
             countMYCards = 23
         }
 
-        if (hard == "hard") {
+        if (hard =="hard") {
             // Toast.makeText(requireContext(), "3", Toast.LENGTH_SHORT).show()
             a = Level.Hard
 
