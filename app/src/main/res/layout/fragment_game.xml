@@ -10,7 +10,9 @@
 
     <ImageView
         android:padding="19dp"
-        android:id="@+id/home_button"
+        android:clickable="true"
+        android:focusable="true"
+        android:id="@+id/play_home"
         android:src="@drawable/home_button"
         android:layout_width="60dp"
         android:layout_height="60dp"

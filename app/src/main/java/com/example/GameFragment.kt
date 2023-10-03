@@ -44,6 +44,9 @@ class GameFragment : Fragment(R.layout.fragment_game) {
 
 
     private var i: Int = 0
+    private lateinit var easy:Any
+    private lateinit var medium:Any
+    private lateinit var hard:Any
     private var finish=-1
     private var bool1 = false
     private var bool2 = false
@@ -60,12 +63,34 @@ class GameFragment : Fragment(R.layout.fragment_game) {
         var list = ArrayList<ImageModel>(allImage.addWords())
 
         val args = this.arguments
-        var easy = args?.get("easy")
-        var medium = args?.get("medium")
-        var hard = args?.get("hard")
+         easy = args?.get("easy")!!
+         medium = args?.get("medium")!!
+         hard = args?.get("hard")!!
+
+        restartGame()
+
+        val homeButton=view.findViewById<ImageView>(R.id.play_home)
+        homeButton.setOnClickListener {
+            parentFragmentManager.beginTransaction().remove(GameFragment()).commit()
+            parentFragmentManager.beginTransaction().replace(R.id.mainActivity,HomeScreenFragment()).commit()
+        }
+
+
+
+      //  showGameOverDialog()
+
+
+
+
+
+
+    }
+    fun restartGame(){
+        emptylist.clear()
+        adapterlist.clear()
 
         if (easy == "easy") {
-           // Toast.makeText(requireContext(), "1", Toast.LENGTH_SHORT).show()
+            // Toast.makeText(requireContext(), "1", Toast.LENGTH_SHORT).show()
             a = Level.Easy
             binding.gridView.layoutManager = GridLayoutManager(requireContext(), 6)
             val singlelist = getEasyShuflle()
@@ -79,24 +104,27 @@ class GameFragment : Fragment(R.layout.fragment_game) {
         }
 
         if (medium == "medium") {
-           // Toast.makeText(requireContext(), "2", Toast.LENGTH_SHORT).show()
+            // Toast.makeText(requireContext(), "2", Toast.LENGTH_SHORT).show()
             a = Level.Medium
 
             binding.gridView.layoutManager = GridLayoutManager(requireContext(), 6)
             val singlelist = getMediumShuflle()
+            adapterlist.clear()
             adapterlist.addAll(singlelist)
             adapterlist.addAll(singlelist)
+
             emptylist.addAll(getMediumEmpty())
             adapterlist.shuffle()
             countMYCards = 23
         }
 
         if (hard == "hard") {
-           // Toast.makeText(requireContext(), "3", Toast.LENGTH_SHORT).show()
+            // Toast.makeText(requireContext(), "3", Toast.LENGTH_SHORT).show()
             a = Level.Hard
 
             binding.gridView.layoutManager = GridLayoutManager(requireContext(), 12)
             val singlelist = getHardShuflle()
+            adapterlist.clear()
             adapterlist.addAll(singlelist)
             adapterlist.addAll(singlelist)
             emptylist.addAll(getHardEmpty())
@@ -104,18 +132,11 @@ class GameFragment : Fragment(R.layout.fragment_game) {
             countMYCards = 47
         }
 
-
         val animator = ObjectAnimator.ofInt(binding.horizontalProgressBar, "progress", 100, 0)
         animator.duration = 10000
         animator.repeatCount = 1
         animator.repeatMode = ObjectAnimator.REVERSE
         animator.start()
-
-
-      //  showGameOverDialog()
-
-
-
         imageAdapter = NoteAdapter(emptylist, a)
         binding.gridView.adapter = imageAdapter
 
@@ -128,7 +149,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
 
 
         imageAdapter.setOnClickListener { index ->
-           // Toast.makeText(requireContext(), "$dontClick", Toast.LENGTH_SHORT).show()
+            // Toast.makeText(requireContext(), "$dontClick", Toast.LENGTH_SHORT).show()
             var empty = ImageModel(R.drawable.empty1)
             if (emptylist.get(index).resId == empty.resId) {
                 return@setOnClickListener
@@ -152,7 +173,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
                 index1 = index
                 resId1 = adapterlist[index].resId
                 bool1 = true
-               // Toast.makeText(requireContext(), "bos 1", Toast.LENGTH_SHORT).show()
+                // Toast.makeText(requireContext(), "bos 1", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
             if (bool1 && index != index1) {
@@ -178,7 +199,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
                     }
                     countDownTimer.start()
                     finish-=2
-                   // Toast.makeText(requireContext(), "sucsess", Toast.LENGTH_SHORT).show()
+                    // Toast.makeText(requireContext(), "sucsess", Toast.LENGTH_SHORT).show()
 
                     if (finish==0) {
                         showGameOverDialog()
@@ -198,7 +219,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
 
                         override fun onFinish() {
                             bool1 = false
-                           // Toast.makeText(requireContext(), "faild", Toast.LENGTH_SHORT).show()
+                            // Toast.makeText(requireContext(), "faild", Toast.LENGTH_SHORT).show()
                             closemp()
 
 
@@ -242,7 +263,6 @@ class GameFragment : Fragment(R.layout.fragment_game) {
         }
 
     }
-
     override fun onDestroyView() {
         // countd1.cancel()
         // countd2.cancel()
@@ -257,6 +277,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
 
     fun getEasyEmpty(): List<ImageModel> {
         val easyListEmpty = ArrayList<ImageModel>()
+        easyListEmpty.clear()
         for (i in 0..11) {
             easyListEmpty.add(ImageModel(R.drawable.hayvonlar_3))
         }
@@ -265,6 +286,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
 
     fun getMediumEmpty(): List<ImageModel> {
         val mediumListEmpty = ArrayList<ImageModel>()
+        mediumListEmpty.clear()
         for (i in 0..23) {
             mediumListEmpty.add(ImageModel(R.drawable.hayvonlar_3))
         }
@@ -273,6 +295,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
 
     fun getHardEmpty(): List<ImageModel> {
         val hardListEmpty = ArrayList<ImageModel>()
+        hardListEmpty.clear()
         for (i in 0..47) {
             hardListEmpty.add(ImageModel(R.drawable.hayvonlar_3))
         }
@@ -280,6 +303,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
     }
 
     fun getMediumShuflle(): List<ImageModel> {
+
         val mediumList = list.shuffled().take(12)
         return mediumList
     }
@@ -306,49 +330,52 @@ class GameFragment : Fragment(R.layout.fragment_game) {
     }
 
     fun openAllCardsFirstTIME() {
+        if (isAdded){
 
-        lifecycleScope.launch {
-            delay(1000)
-            for (i in 0..countMYCards) {
-                var p = binding.gridView.getChildAt(i) as View
-                p.animate().setDuration(300).rotationY(89f).withEndAction {
-                    emptylist[i] = ImageModel(adapterlist.get(i).resId)
-                    imageAdapter.notifyDataSetChanged()
+            lifecycleScope.launch {
+                delay(1000)
+                for (i in 0..countMYCards) {
+                    var p = binding.gridView.getChildAt(i) as View
+                    p.animate().setDuration(300).rotationY(89f).withEndAction {
+                        emptylist[i] = ImageModel(adapterlist.get(i).resId)
+                        imageAdapter.notifyDataSetChanged()
 
-                    p.rotationY = -89f
-                    p.animate().setDuration(300).rotationY(0f).withEndAction {
+                        p.rotationY = -89f
+                        p.animate().setDuration(300).rotationY(0f).withEndAction {
 
 
+                        }.start()
                     }.start()
-                }.start()
-                //
-                countd2 = object : CountDownTimer(1000, 500) {
-                    override fun onTick(p0: Long) {
+                    //
+                    countd2 = object : CountDownTimer(1000, 500) {
+                        override fun onTick(p0: Long) {
 
-                    }
+                        }
 
-                    override fun onFinish() {
-                        for (i in 0..countMYCards) {
-                            var p = binding.gridView.getChildAt(i)
-                            p.animate().setDuration(300).rotationY(-89f).withEndAction {
+                        override fun onFinish() {
+                            for (i in 0..countMYCards) {
+                                var p = binding.gridView.getChildAt(i)
+                                p.animate().setDuration(300).rotationY(-89f).withEndAction {
                                     emptylist[i] = ImageModel(R.drawable.hayvonlar_3)
                                     imageAdapter.notifyDataSetChanged()
 
                                     p.rotationY = 89f
                                     p.animate().setDuration(300).rotationY(0f).withEndAction {
 
-                                        }.start()
+                                    }.start()
                                 }
 
+                            }
                         }
+
                     }
+                    countd2.start()
 
                 }
-                countd2.start()
 
             }
-
         }
+
 
 
     }
@@ -360,6 +387,18 @@ class GameFragment : Fragment(R.layout.fragment_game) {
         val dialogView=inflate.inflate(R.layout.dialog_you_win,null)
         dialog.setView(dialogView)
         val dialogD=dialog.create()
+        val home=dialogView.findViewById<ImageView>(R.id.home_button)
+        home.setOnClickListener {
+            dialogD.dismiss()
+            parentFragmentManager.beginTransaction().remove(GameFragment()).commit()
+            parentFragmentManager.beginTransaction().replace(R.id.mainActivity,HomeScreenFragment()).commit()
+
+        }
+        val next=dialogView.findViewById<ImageView>(R.id.win_next)
+        next.setOnClickListener {
+            dialogD.dismiss()
+            restartGame()
+        }
         dialogD.getWindow()?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialogD.show()
     }

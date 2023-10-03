@@ -27,7 +27,7 @@
     <ImageView
         android:padding="18dp"
         android:background="@drawable/emp"
-        android:id="@+id/home_button"
+        android:id="@+id/lost_home"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_alignParentStart="true"
