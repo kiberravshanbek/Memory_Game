@@ -10,12 +10,6 @@ class AlImages {
         // bu bizga rasmlar listini beradi
         images.add(ImageModel(R.drawable.img_1))
         images.add(ImageModel(R.drawable.img_2))
-        images.add(ImageModel(R.drawable.img_5))
-        images.add(ImageModel(R.drawable.img_7))
-        images.add(ImageModel(R.drawable.img_23))
-        images.add(ImageModel(R.drawable.img_24))
-        images.add(ImageModel(R.drawable.img_25))
-        images.add(ImageModel(R.drawable.img_26))
         images.add(ImageModel(R.drawable.img_28))
         images.add(ImageModel(R.drawable.img_29))
         images.add(ImageModel(R.drawable.img_30))

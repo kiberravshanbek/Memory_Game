@@ -219,23 +219,24 @@ class GameFragment : Fragment(R.layout.fragment_game) {
                     // Toast.makeText(requireContext(), "sucsess", Toast.LENGTH_SHORT).show()
 
                     if (finish == 0) {
-                      //  showGameOverDialog(setStar())
-                        val bundle=Bundle()
+                   //  showGameOverDialog(setStar())
+                     val bundle=Bundle()
+//
+                     if (easy == "easy") {
+                         bundle.putString("kod","easy")
+                     }
+                     if (medium == "medium") {
+                         bundle.putString("kod","medium")
+                     }
+                     if (hard == "hard") {
+                         bundle.putString("kod","hard")
+                     }
+                     val fragment =WinnerFragment()
+                     fragment.arguments=bundle
+                     parentFragmentManager.beginTransaction().replace(R.id.mainActivity,fragment).commit()
 
-                        if (easy == "easy") {
-                            bundle.putString("kod","easy")
-                        }
-                        if (medium == "medium") {
-                            bundle.putString("kod","medium")
-                        }
-                        if (hard == "hard") {
-                            bundle.putString("kod","hard")
-                        }
-                        val fragment =WinnerFragment()
-                        fragment.arguments=bundle
-                        parentFragmentManager.beginTransaction().replace(R.id.mainActivity,fragment).commit()
+
                     }
-                    Toast.makeText(requireContext(), "siz yutdingiz", Toast.LENGTH_SHORT).show()
 
                     bool1 = false
                 } else {
